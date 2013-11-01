@@ -27,29 +27,4 @@
         android:singleLine="true"
         android:text="COMP-1411"
         android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/course_code_instructor_divider"
-        android:paddingLeft="6dp"
-        android:paddingRight="6dp"
-        android:layout_width="wrap_content"
-        android:layout_height="26dp"
-        android:layout_below="@id/course_name"
-        android:layout_toRightOf="@id/course_code"
-        android:singleLine="true"
-        android:text="@string/course_code_instructor_divider"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/course_instructor"
-        android:layout_width="fill_parent"
-        android:layout_height="26dp"
-        android:layout_below="@id/course_name"
-        android:layout_toRightOf="@id/course_code_instructor_divider"
-        android:singleLine="true"
-        android:text="Dr. Jinan Fiaidhi"
-        android:textSize="12sp" />
-
-
-
 </RelativeLayout>

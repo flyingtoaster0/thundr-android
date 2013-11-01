@@ -39,7 +39,6 @@ public class CourseAdapter extends ArrayAdapter<JSONObject> {
         {
             TextView nameView = (TextView) v.findViewById(R.id.course_name);
             TextView codeView = (TextView) v.findViewById(R.id.course_code);
-            TextView instructorView = (TextView) v.findViewById(R.id.course_instructor);
             try
             {
                 if(nameView != null)
@@ -50,11 +49,6 @@ public class CourseAdapter extends ArrayAdapter<JSONObject> {
                 {
                     codeView.setText(i.getString("department") + "-" + i.getString("code") + "-" + i.getString("section"));
                 }
-                if(instructorView != null)
-                {
-                    instructorView.setText(i.getString("instructor"));
-                }
-
             }
             catch(JSONException e)
             {
