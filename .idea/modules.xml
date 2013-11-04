@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Thundr/Thundr.iml" filepath="$PROJECT_DIR$/Thundr/Thundr.iml" />
       <module fileurl="file://$PROJECT_DIR$/ThundrProject.iml" filepath="$PROJECT_DIR$/ThundrProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/thundr-android.iml" filepath="$PROJECT_DIR$/thundr-android.iml" />
     </modules>
   </component>
 </project>
