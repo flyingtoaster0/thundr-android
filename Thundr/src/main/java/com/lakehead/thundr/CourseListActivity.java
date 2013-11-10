@@ -3,6 +3,7 @@ package com.lakehead.thundr;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -87,8 +88,7 @@ public class CourseListActivity extends Activity implements OnTaskCompleted {
 
                     Bundle b = new Bundle();
                     b.putString("department", item.getString("department"));
-                    b.putString("code", item.getString("code"));
-                    b.putString("section", item.getString("section"));
+                    b.putString("course_code", item.getString("course_code"));
                     intent.putExtras(b);
                     startActivity(intent);
 
@@ -96,6 +96,10 @@ public class CourseListActivity extends Activity implements OnTaskCompleted {
                 catch (JSONException e)
                 {
                     e.printStackTrace();
+                }
+                catch(Exception e)
+                {
+                    Log.e("Exceptions", e.toString());
                 }
             }
 

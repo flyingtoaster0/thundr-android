@@ -50,12 +50,12 @@ public class CourseActivity extends Activity implements OnTaskCompleted
 
         Bundle b = getIntent().getExtras();
         courseDept = b.getString("department");
-        courseCode = b.getString("code");
-        courseSection = b.getString("section");
+        courseCode = b.getString("course_code");
+        //courseSection = b.getString("section_code");
 
-        Log.d("Debug", "Opened course activity. Using: " + courseDept + "-" + courseCode + "-" + courseSection);
+        Log.d("Debug", "Opened course activity. Using: " + courseDept + "-" + courseCode);
 
-        new GetJSONArrayTask(this).execute("http://thundr.ca/api/courses/"+courseDept+"/"+courseCode+"/"+courseSection);
+        new GetJSONArrayTask(this).execute("http://thundr.ca/api/course_info/"+courseDept+"/"+courseCode);
 
         sectionInfoView = (LinearLayout)findViewById(R.id.section_info);
         //sectionInfoView.setSelector(android.R.color.transparent);

@@ -47,7 +47,7 @@ public class CourseAdapter extends ArrayAdapter<JSONObject> {
                 }
                 if(codeView != null)
                 {
-                    codeView.setText(i.getString("department") + "-" + i.getString("course_code") + "-" + i.getString("section"));
+                    codeView.setText(i.getString("department") + "-" + i.getString("course_code"));
                 }
             }
             catch(JSONException e)
