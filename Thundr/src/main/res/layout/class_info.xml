@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/section_info_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp"
-    android:layout_gravity="center_horizontal|top">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/section_info_area"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:divider="#E0E0E0"
+    android:dividerHeight="1dp"
+    android:padding="4dp">
 
 
 
@@ -20,6 +19,7 @@
         android:layout_height="26dp"
         android:text="Monday"
         android:textSize="16sp"
+        android:paddingRight="8dp"
         android:gravity="left" />
 
     <!--TextView
@@ -30,14 +30,22 @@
         android:layout_height="26dp"
         android:text="@string/comma_divider"
         android:textSize="16sp" /-->
-
+    <TextView
+        android:id="@+id/room"
+        android:layout_gravity="right"
+        android:paddingLeft="32dp"
+        android:paddingRight="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:text="AT2005"
+        android:textSize="16sp"
+        android:gravity="right"
+        android:layout_alignParentRight="true" />
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:id="@+id/course_time"
-        android:layout_toRightOf="@id/day_of_week"
-        android:gravity="center_horizontal">
+        android:layout_toLeftOf="@id/room">
         <TextView
             android:id="@+id/start_time"
             android:paddingLeft="4dp"
@@ -70,17 +78,8 @@
             android:textSize="16sp" />
 
     </RelativeLayout>
-    <TextView
-        android:id="@+id/room"
-        android:layout_gravity="right"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:layout_width="wrap_content"
-        android:layout_height="26dp"
-        android:text="AT2005"
-        android:textSize="16sp"
-        android:gravity="right" />
 
 
 
-</FrameLayout>
+
+</RelativeLayout>

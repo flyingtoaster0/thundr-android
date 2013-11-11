@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="COMP-1411-F1"
+                    android:text="COMP-1411"
                     android:id="@+id/course_code"
                     android:layout_gravity="center_horizontal" />
 

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.view.LayoutInflater;
 
@@ -157,23 +158,89 @@ public class CourseActivity extends Activity implements OnTaskCompleted
     }
 
 
+    public void addSection(String sectionType, LinearLayout parentLayout, JSONObject sectionsList)
+    {
+        try
+        {
+            LayoutInflater inflater = (LayoutInflater)   this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            for(int i=0; i<sectionsList.getJSONArray(sectionType).length(); i++)
+            {
+                JSONObject lecture = (JSONObject)sectionsList.getJSONArray(sectionType).get(i);
+                View infoListView = inflater.inflate(R.layout.season_info_section_list, null);
+                parentLayout.addView(infoListView);
+                LinearLayout infoListLayout = (LinearLayout)infoListView;
+
+                View sectionInfoView;
+                sectionInfoView = inflater.inflate(R.layout.section_info, null);
+                TextView methodView = (TextView) sectionInfoView.findViewById(R.id.section_method);
+                methodView.setText(lecture.getString("method"));
+
+                TextView fullCodeView = (TextView) sectionInfoView.findViewById(R.id.section_full_code);
+                fullCodeView.setText("(" + lecture.getString("department") + "-" + lecture.getString("course_code") + "-" + lecture.getString("section_code") + ")");
+
+                TextView synonymView = (TextView) sectionInfoView.findViewById(R.id.section_synonym);
+                synonymView.setText(lecture.getString("synonym"));
+
+                infoListLayout.addView(sectionInfoView);
+                RelativeLayout sectionInfoLayout = (RelativeLayout)sectionInfoView;
+                //set its synonym etc
+
+
+                View classListView = inflater.inflate(R.layout.class_list, null);
+                infoListLayout.addView(classListView);
+
+
+                for(int j=0; j<lecture.getJSONArray("class_array").length(); j++)
+                {
+                    JSONObject klass = (JSONObject)lecture.getJSONArray("class_array").get(j);
+
+                    View classRowView = inflater.inflate(R.layout.class_info, null);
+                    TextView dayView = (TextView) classRowView.findViewById(R.id.day_of_week);
+                    dayView.setText(klass.getString("day"));
+
+                    LinearLayout classListLayout = (LinearLayout)classListView;
+                    classListLayout.addView(classRowView);
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+
     @Override
     public void onTaskCompleted(JSONArray jArray) {
         this.jArray = jArray;
-        final ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
-        titleText = (TextView)findViewById(R.id.course_title);
-        codeText = (TextView)findViewById(R.id.course_code);
-        descriptText = (TextView)findViewById(R.id.course_description);
-        prereqText = (TextView)findViewById(R.id.course_prerequisites);
-
-
-        //ArrayList<JSONObject> seasonList = new ArrayList<JSONObject>();
-
+        JSONObject jInfo = null;
         try
         {
-            JSONObject fallSections = new JSONObject(((JSONObject)jArray.get(0)).getString("fall"));
-            JSONObject winterSections = new JSONObject(((JSONObject)jArray.get(0)).getString("winter"));
+            jInfo = jArray.getJSONObject(0);
 
+            final ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+            titleText = (TextView)findViewById(R.id.course_title);
+            codeText = (TextView)findViewById(R.id.course_code);
+            descriptText = (TextView)findViewById(R.id.course_description);
+            prereqText = (TextView)findViewById(R.id.course_prerequisites);
+
+
+            TextView courseTitleText = (TextView)findViewById(R.id.course_title);
+            TextView courseCodeText = (TextView)findViewById(R.id.course_code);
+            TextView courseDescriptText = (TextView)findViewById(R.id.course_description);
+            TextView coursePrereqText = (TextView)findViewById(R.id.course_prerequisites);
+
+            courseTitleText.setText(jInfo.getString("name"));
+            courseCodeText.setText(jInfo.getString("department") + "-" + jInfo.getString("course_code"));
+            courseDescriptText.setText(jInfo.getString("description"));
+            coursePrereqText.setText(jInfo.getString("prerequisite"));
+
+
+
+
+            JSONObject fallSections = new JSONObject(jArray.getJSONObject(0).getString("fall"));
+            JSONObject winterSections = new JSONObject(((JSONObject)jArray.get(0)).getString("winter"));
 
             if(!checkSeasonEmpty(fallSections))
             {
@@ -185,116 +252,35 @@ public class CourseActivity extends Activity implements OnTaskCompleted
                 seasonNameView.setText("Fall");
 
                 seasonInfoView.addView(seasonView);
-
                 LinearLayout seasonLayout = (LinearLayout)seasonView;
 
 
-                // --------------Lectures--------------
-                for(int i=0; i<fallSections.getJSONArray("lectures").length(); i++)
-                {
-                    View sectionInfoView;
-                    sectionInfoView = inflater.inflate(R.layout.section_info, null);
-                    seasonLayout.addView(sectionInfoView);
-
-
-                    JSONObject lecture = (JSONObject)fallSections.getJSONArray("lectures").get(i);
-
-                    for(int j=0; j<lecture.getJSONArray("class_array").length(); j++)
-                    {
-                        JSONObject klass = (JSONObject)lecture.getJSONArray("class_array").get(j);
-
-                        View classRowView;
-                        classRowView = inflater.inflate(R.layout.class_info, null);
-                        TextView dayView = (TextView) classRowView.findViewById(R.id.day_of_week);
-                        dayView.setText(klass.getString("day"));
-
-                        LinearLayout classRowLayout = (LinearLayout)sectionInfoView;
-                        classRowLayout.addView(classRowView);
-                    }
-                }
-
-
-
-                // --------------Labs--------------
-                for(int i=0; i<fallSections.getJSONArray("labs").length(); i++)
-                {
-                    View sectionInfoView;
-                    sectionInfoView = inflater.inflate(R.layout.section_info, null);
-                    seasonLayout.addView(sectionInfoView);
-
-
-                    JSONObject lecture = (JSONObject)fallSections.getJSONArray("labs").get(i);
-
-                    for(int j=0; j<lecture.getJSONArray("class_array").length(); j++)
-                    {
-                        JSONObject klass = (JSONObject)lecture.getJSONArray("class_array").get(j);
-
-                        View classRowView;
-                        classRowView = inflater.inflate(R.layout.class_info, null);
-                        TextView dayView = (TextView) classRowView.findViewById(R.id.day_of_week);
-                        dayView.setText(klass.getString("day"));
-
-                        LinearLayout classRowLayout = (LinearLayout)sectionInfoView;
-                        classRowLayout.addView(classRowView);
-                    }
-                }
-
-
-
-                // --------------Practicals--------------
-                for(int i=0; i<fallSections.getJSONArray("practicals").length(); i++)
-                {
-                    View sectionInfoView;
-                    sectionInfoView = inflater.inflate(R.layout.section_info, null);
-                    seasonLayout.addView(sectionInfoView);
-
-
-                    JSONObject lecture = (JSONObject)fallSections.getJSONArray("practicals").get(i);
-
-                    for(int j=0; j<lecture.getJSONArray("class_array").length(); j++)
-                    {
-                        JSONObject klass = (JSONObject)lecture.getJSONArray("class_array").get(j);
-
-                        View classRowView;
-                        classRowView = inflater.inflate(R.layout.class_info, null);
-                        TextView dayView = (TextView) classRowView.findViewById(R.id.day_of_week);
-                        dayView.setText(klass.getString("day"));
-
-                        LinearLayout classRowLayout = (LinearLayout)sectionInfoView;
-                        classRowLayout.addView(classRowView);
-                    }
-                }
-
-
-
-                // --------------Tutorials--------------
-                for(int i=0; i<fallSections.getJSONArray("tutorials").length(); i++)
-                {
-                    View sectionInfoView;
-                    sectionInfoView = inflater.inflate(R.layout.section_info, null);
-                    seasonLayout.addView(sectionInfoView);
-
-
-                    JSONObject lecture = (JSONObject)fallSections.getJSONArray("tutorials").get(i);
-
-                    for(int j=0; j<lecture.getJSONArray("class_array").length(); j++)
-                    {
-                        JSONObject klass = (JSONObject)lecture.getJSONArray("class_array").get(j);
-
-                        View classRowView;
-                        classRowView = inflater.inflate(R.layout.class_info, null);
-                        TextView dayView = (TextView) classRowView.findViewById(R.id.day_of_week);
-                        dayView.setText(klass.getString("day"));
-
-                        LinearLayout classRowLayout = (LinearLayout)sectionInfoView;
-                        classRowLayout.addView(classRowView);
-                    }
-                }
-
-                //you've gotta DRY this up a bit, man...
-                //etc
-
+                addSection("lectures", seasonLayout, fallSections);
+                addSection("labs", seasonLayout, fallSections);
+                addSection("practicals", seasonLayout, fallSections);
+                addSection("tutorials", seasonLayout, fallSections);
             }
+
+            if(!checkSeasonEmpty(winterSections))
+            {
+                //FALL-----------------------------------------------
+                View seasonView;
+                LayoutInflater inflater = (LayoutInflater)   this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                seasonView = inflater.inflate(R.layout.course_season_info, null);
+                TextView seasonNameView = (TextView) seasonView.findViewById(R.id.season_name);
+                seasonNameView.setText("Winter");
+
+                seasonInfoView.addView(seasonView);
+                LinearLayout seasonLayout = (LinearLayout)seasonView;
+
+
+                addSection("lectures", seasonLayout, winterSections);
+                addSection("labs", seasonLayout, winterSections);
+                addSection("practicals", seasonLayout, winterSections);
+                addSection("tutorials", seasonLayout, winterSections);
+            }
+
+
         }
         catch(Exception e)
         {
