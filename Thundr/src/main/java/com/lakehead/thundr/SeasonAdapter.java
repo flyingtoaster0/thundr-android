@@ -14,12 +14,12 @@ import java.util.Date;
 
 import java.util.ArrayList;
 
-public class SectionAdapter extends ArrayAdapter<ArrayList<String>> {
+public class SeasonAdapter extends ArrayAdapter<ArrayList<String>> {
 
     private ArrayList<ArrayList<String>> objects;
     private final Activity context;
 
-    public SectionAdapter (Activity context, ArrayList<ArrayList<String>> objects) {
+    public SeasonAdapter (Activity context, ArrayList<ArrayList<String>> objects) {
         super(context, R.layout.class_info, objects);
         this.context = context;
         this.objects = objects;

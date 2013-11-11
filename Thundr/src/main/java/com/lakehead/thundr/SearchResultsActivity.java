@@ -79,8 +79,7 @@ public class SearchResultsActivity extends Activity  implements OnTaskCompleted 
 
                     Bundle b = new Bundle();
                     b.putString("department", item.getString("department"));
-                    b.putString("code", item.getString("code"));
-                    b.putString("section", item.getString("section"));
+                    b.putString("course_code", item.getString("course_code"));
                     intent.putExtras(b);
                     startActivity(intent);
                 }

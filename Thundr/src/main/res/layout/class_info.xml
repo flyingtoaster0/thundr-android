@@ -12,6 +12,7 @@
     android:layout_gravity="center_horizontal|top">
 
 
+
     <TextView
         android:id="@+id/day_of_week"
         android:layout_gravity="left"

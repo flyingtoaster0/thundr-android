@@ -63,16 +63,17 @@
                     />
             </LinearLayout>
 
+
             <LinearLayout
                 android:orientation="vertical"
-                android:id="@+id/section_info"
+                android:id="@+id/season_info"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:divider="#E0E0E0"
                 android:dividerHeight="1dp"
-                android:padding="4dp"
-                android:background="@drawable/course_bg" />
+                android:padding="4dp" />
+
 
 
 
