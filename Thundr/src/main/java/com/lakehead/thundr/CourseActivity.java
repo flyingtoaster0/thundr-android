@@ -15,7 +15,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import java.util.Date;
+import java.text.ParseException;
 
 /**
  * Created by tim on 10/15/13.
@@ -57,7 +61,7 @@ public class CourseActivity extends Activity implements OnTaskCompleted
 
         //sectionInfoView = (LinearLayout)findViewById(R.id.section_info);
         seasonInfoView = (LinearLayout)findViewById(R.id.season_info);
-        //sectionInfoView.setSelector(android.R.color.transparent);
+        //sectionInfoView.setSelector(R.color.transparent);
 
         courseInfoLayout = (LinearLayout) findViewById(R.id.course_info);
         courseInfoLayout.setVisibility(View.INVISIBLE);
@@ -185,22 +189,55 @@ public class CourseActivity extends Activity implements OnTaskCompleted
                 RelativeLayout sectionInfoLayout = (RelativeLayout)sectionInfoView;
                 //set its synonym etc
 
-
-                View classListView = inflater.inflate(R.layout.class_list, null);
-                infoListLayout.addView(classListView);
-
-
-                for(int j=0; j<lecture.getJSONArray("class_array").length(); j++)
+                if(lecture.getJSONArray("class_array").length()>0)
                 {
-                    JSONObject klass = (JSONObject)lecture.getJSONArray("class_array").get(j);
+                    View classListView = inflater.inflate(R.layout.class_list, null);
+                    infoListLayout.addView(classListView);
+                    for(int j=0; j<lecture.getJSONArray("class_array").length(); j++)
+                    {
+                        JSONObject klass = (JSONObject)lecture.getJSONArray("class_array").get(j);
 
-                    View classRowView = inflater.inflate(R.layout.class_info, null);
-                    TextView dayView = (TextView) classRowView.findViewById(R.id.day_of_week);
-                    dayView.setText(klass.getString("day"));
+                        View classRowView = inflater.inflate(R.layout.class_info, null);
+                        TextView dayView = (TextView) classRowView.findViewById(R.id.day_of_week);
+                        dayView.setText(klass.getString("day"));
 
-                    LinearLayout classListLayout = (LinearLayout)classListView;
-                    classListLayout.addView(classRowView);
+
+                        TextView startTimeView = (TextView) classRowView.findViewById(R.id.start_time);
+                        TextView endTimeView = (TextView) classRowView.findViewById(R.id.end_time);
+                        TextView roomView = (TextView) classRowView.findViewById(R.id.room);
+
+                        String startTimeString = "";
+                        String endTimeString = "";
+                        try
+                        {
+                            SimpleDateFormat inFormat = new SimpleDateFormat("HH:mm");
+                            SimpleDateFormat outFormat = new SimpleDateFormat("hh:mma");
+                            Date startTime = inFormat.parse(klass.getString("start_time"));
+                            Date endTime = inFormat.parse(klass.getString("end_time"));
+                            startTimeString = outFormat.format(startTime);
+                            endTimeString = outFormat.format(endTime);
+                        }
+                        catch(ParseException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                        startTimeView.setText(startTimeString);
+                        endTimeView.setText(endTimeString);
+
+                        roomView.setText(klass.getString("room"));
+
+
+
+
+                        LinearLayout classListLayout = (LinearLayout)classListView;
+                        classListLayout.addView(classRowView);
+                    }
                 }
+
+
+
+
             }
         }
         catch(Exception e)
@@ -234,7 +271,7 @@ public class CourseActivity extends Activity implements OnTaskCompleted
             courseTitleText.setText(jInfo.getString("name"));
             courseCodeText.setText(jInfo.getString("department") + "-" + jInfo.getString("course_code"));
             courseDescriptText.setText(jInfo.getString("description"));
-            coursePrereqText.setText(jInfo.getString("prerequisite"));
+            coursePrereqText.setText("Prerequisites: " + jInfo.getString("prerequisite"));
 
 
 

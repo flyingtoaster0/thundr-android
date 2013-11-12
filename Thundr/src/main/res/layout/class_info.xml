@@ -33,7 +33,7 @@
     <TextView
         android:id="@+id/room"
         android:layout_gravity="right"
-        android:paddingLeft="32dp"
+        android:paddingLeft="28dp"
         android:paddingRight="4dp"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
