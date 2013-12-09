@@ -21,11 +21,27 @@
             android:label="@string/app_name" >
 
             <intent-filter>
+                <!--action android:name="android.intent.action.MAIN" /-->
+
+                <!--category android:name="android.intent.category.LAUNCHER" /-->
+            </intent-filter>
+            <meta-data android:name="android.app.default_searchable" android:value=".SearchResultsActivity" />
+        </activity>
+
+        <activity
+            android:name="com.lakehead.thundr.LoginActivity"
+            android:label="@string/app_name" >
+
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.default_searchable" android:value=".SearchResultsActivity" />
+        </activity>
+
+        <activity
+            android:name="com.lakehead.thundr.RegisterActivity"
+            android:label="@string/app_name" >
         </activity>
 
         <activity
