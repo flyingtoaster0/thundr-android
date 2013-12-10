@@ -58,8 +58,8 @@ public class MainActivity extends Activity implements OnTaskCompleted {
 
 
     @Override
-    public void onTaskCompleted(JSONArray jArray) {
-        this.jArray = jArray;
+    public void onTaskCompleted(Object obj) {
+        this.jArray = (JSONArray)obj;
         final ArrayList<String> list = new ArrayList<String>();
 
         try

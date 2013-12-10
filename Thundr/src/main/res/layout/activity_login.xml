@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
@@ -11,39 +11,33 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Login"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Email"
-        />
+        android:id="@+id/login_label" />
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/user_field" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Password"
-        />
+        android:id="@+id/email_field"
+        android:layout_below="@id/login_label"
+        android:inputType="textEmailAddress"
+        android:hint="Email address" />
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/pass_field" />
+        android:id="@+id/pass_field"
+        android:layout_below="@id/email_field"
+        android:hint="Password" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Log In"
         android:id="@+id/login_button"
-        android:onClick="login" />
+        android:onClick="login"
+        android:layout_below="@id/pass_field" />
+
 
     <Button
         android:layout_width="fill_parent"
@@ -51,7 +45,16 @@
         android:text="New to Thundr? Register here"
         android:id="@+id/no_account_button"
         android:background="@android:color/transparent"
-        android:onClick="goToRegister" />
+        android:onClick="goToRegister"
+        android:layout_below="@id/login_button" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/loader"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"/>
 
 
-</LinearLayout>
+</RelativeLayout>
