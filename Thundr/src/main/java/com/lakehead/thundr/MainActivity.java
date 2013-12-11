@@ -85,7 +85,7 @@ public class MainActivity extends Activity implements OnTaskCompleted {
 
                 try
                 {
-                    final String deptCode = (String)MainActivity.this.jArray.getJSONObject(position).get("deptCode");
+                    final String deptCode = (String)MainActivity.this.jArray.getJSONObject(position).get("dept_code");
                     Intent intent = new Intent(MainActivity.this, CourseListActivity.class);
 
                     Bundle b = new Bundle();

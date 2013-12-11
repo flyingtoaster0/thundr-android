@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+
+    <item android:id="@+id/action_favorites"
+        android:icon="@drawable/ic_action_favorite"
+        android:title="Favorites"
+        android:showAsAction="never"/-->
+    <item android:id="@+id/action_delete_section"
+        android:title="Add Class"
+        android:icon="@drawable/ic_action_discard"
+        android:showAsAction="always" />
+</menu>
