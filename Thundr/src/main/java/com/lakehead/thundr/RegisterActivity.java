@@ -177,7 +177,7 @@ public class RegisterActivity extends Activity implements OnTaskCompleted {
 
     private void goToMySchedules()
     {
-        Toast toast = Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT);
-        toast.show();
+        Intent intent = new Intent(RegisterActivity.this, ScheduleActivity.class);
+        startActivity(intent);
     }
 }

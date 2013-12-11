@@ -8,6 +8,12 @@
         android:icon="@drawable/ic_action_favorite"
         android:title="Favorites"
         android:showAsAction="never"/-->
+
+    <item android:id="@+id/action_to_calendar"
+        android:title="Add Class"
+        android:icon="@drawable/ic_action_go_to_today"
+        android:showAsAction="always" />
+
     <item android:id="@+id/action_add_class"
         android:title="Add Class"
         android:icon="@drawable/ic_action_new"

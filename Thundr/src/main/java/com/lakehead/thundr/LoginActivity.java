@@ -41,6 +41,7 @@ public class LoginActivity extends Activity implements OnTaskCompleted {
     SharedPreferences prefs;
     ProgressBar bar;
 
+    String tokenString;
     JSONObject rememberToken;
 
     @Override
@@ -54,7 +55,11 @@ public class LoginActivity extends Activity implements OnTaskCompleted {
         toRegButton = (Button) findViewById(R.id.no_account_button);
 
         prefs = this.getSharedPreferences("com.lakehead.thundr", Context.MODE_PRIVATE);
-
+        tokenString = prefs.getString("remember_token","");
+        if(!tokenString.equals(""))
+        {
+            goToMySchedules();
+        }
         bar = (ProgressBar) findViewById(R.id.loader);
         bar.setVisibility(View.INVISIBLE);
     }
@@ -98,7 +103,8 @@ public class LoginActivity extends Activity implements OnTaskCompleted {
 
     public void goToMySchedules()
     {
-
+        Intent intent = new Intent(LoginActivity.this, ScheduleActivity.class);
+        startActivity(intent);
     }
 
     @Override
