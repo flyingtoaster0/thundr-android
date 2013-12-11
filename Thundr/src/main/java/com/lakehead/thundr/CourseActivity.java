@@ -249,8 +249,8 @@ public class CourseActivity extends Activity implements OnTaskCompleted
 
 
     @Override
-    public void onTaskCompleted(JSONArray jArray) {
-        this.jArray = jArray;
+    public void onTaskCompleted(Object obj) {
+        this.jArray = (JSONArray)obj;
         JSONObject jInfo = null;
         try
         {

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="64dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="6dp"
+    android:paddingRight="6dp"
+    android:paddingLeft="6dp">
+
+
+
+
+    <TextView
+        android:id="@+id/course_name"
+        android:layout_width="fill_parent"
+        android:layout_height="26dp"
+        android:text="Computer Programming I"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/course_code"
+        android:paddingLeft="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_below="@id/course_name"
+        android:singleLine="true"
+        android:text="COMP-1411"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/instructor"
+        android:paddingLeft="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:singleLine="true"
+        android:layout_below="@id/course_name"
+        android:layout_toRightOf="@id/course_code"
+        android:text="Dr. Benson"
+        android:textSize="12sp" />
+</RelativeLayout>

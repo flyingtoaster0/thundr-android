@@ -8,9 +8,8 @@
         android:icon="@drawable/ic_action_favorite"
         android:title="Favorites"
         android:showAsAction="never"/-->
-    <item android:id="@+id/action_search"
-        android:title="Search"
-        android:icon="@drawable/ic_action_search"
-        android:showAsAction="always"
-        android:actionViewClass="android.widget.SearchView" />
+    <item android:id="@+id/action_add_class"
+        android:title="Add Class"
+        android:icon="@drawable/ic_action_new"
+        android:showAsAction="always" />
 </menu>

@@ -1,57 +1,71 @@
 package com.lakehead.thundr;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.content.Intent;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.SearchView;
+import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
-import android.app.ProgressDialog;
-import android.widget.SearchView;
-import android.app.SearchManager;
-import android.content.Context;
-
-import android.widget.ProgressBar;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity implements OnTaskCompleted {
+public class ScheduleActivity extends Activity implements OnTaskCompleted {
     ListView listview;
     ProgressDialog progressBar;
     JSONArray jArray;
     ProgressBar bar;
+    SharedPreferences prefs;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new GetJSONArrayTask(this).execute("http://192.168.35.100:3000/api/departments");
 
         listview = (ListView) findViewById(R.id.list);
 
 
         bar = (ProgressBar) findViewById(R.id.loader);
 
-        //progressBar = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
-        //progressBar.setCancelable(false);
-        //progressBar.setMessage("Loading departments...");
-        //progressBar.show();
+        prefs = this.getSharedPreferences("com.lakehead.thundr", Context.MODE_PRIVATE);
+        token = prefs.getString("remember_token","");
+        new GetScheduleTask(this).execute("http://thundr.ca/api/schedules/show", "f4f79c9b11f98e2c3d0e18819b42d88e701ec59c");
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        inflater.inflate(R.menu.schedule, menu);
 
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add_class:
+                Toast.makeText(this, "Menu Item 1 selected", Toast.LENGTH_SHORT).show();
+                break;
+
+            default:
+                break;
+        }
 
         return true;
     }
@@ -60,12 +74,12 @@ public class MainActivity extends Activity implements OnTaskCompleted {
     @Override
     public void onTaskCompleted(Object obj) {
         this.jArray = (JSONArray)obj;
-        final ArrayList<String> list = new ArrayList<String>();
+        final ArrayList<JSONObject> list = new ArrayList<JSONObject>();
 
         try
         {
             for (int i = 0; i < jArray.length(); ++i) {
-                list.add(jArray.getJSONObject(i).getString("dept_name"));
+                list.add(jArray.getJSONObject(i));
             }
         }
         catch(JSONException e)
@@ -73,7 +87,10 @@ public class MainActivity extends Activity implements OnTaskCompleted {
             e.printStackTrace();
         }
 
-        final StableArrayAdapter adapter = new StableArrayAdapter(this,
+        final ScheduleAdapter adapter = new ScheduleAdapter(this, list);
+        listview.setAdapter(adapter);
+
+        /*final StableArrayAdapter adapter = new StableArrayAdapter(this,
                 android.R.layout.simple_list_item_1, list);
         listview.setAdapter(adapter);
 
@@ -85,8 +102,8 @@ public class MainActivity extends Activity implements OnTaskCompleted {
 
                 try
                 {
-                    final String deptCode = (String)MainActivity.this.jArray.getJSONObject(position).get("deptCode");
-                    Intent intent = new Intent(MainActivity.this, CourseListActivity.class);
+                    final String deptCode = (String)ScheduleActivity.this.jArray.getJSONObject(position).get("deptCode");
+                    Intent intent = new Intent(ScheduleActivity.this, CourseListActivity.class);
 
                     Bundle b = new Bundle();
                     b.putString("deptCode", deptCode);
@@ -99,7 +116,7 @@ public class MainActivity extends Activity implements OnTaskCompleted {
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
         bar.setVisibility(View.GONE);
         //progressBar.dismiss();
     }
