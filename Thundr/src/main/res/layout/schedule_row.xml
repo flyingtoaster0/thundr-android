@@ -9,9 +9,6 @@
     android:paddingLeft="6dp"
     style="@style/activated">
 
-
-
-
     <TextView
         android:id="@+id/course_name"
         android:layout_width="fill_parent"

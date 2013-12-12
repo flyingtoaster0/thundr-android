@@ -58,7 +58,7 @@ public class LoginActivity extends Activity implements OnTaskCompleted {
         tokenString = prefs.getString("remember_token","");
         if(!tokenString.equals(""))
         {
-            goToMySchedules();
+            goToCalendar();
         }
         bar = (ProgressBar) findViewById(R.id.loader);
         bar.setVisibility(View.INVISIBLE);
@@ -101,10 +101,11 @@ public class LoginActivity extends Activity implements OnTaskCompleted {
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
     }
 
-    public void goToMySchedules()
+    public void goToCalendar()
     {
-        Intent intent = new Intent(LoginActivity.this, ScheduleActivity.class);
+        Intent intent = new Intent(LoginActivity.this, CalendarActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -133,13 +134,9 @@ public class LoginActivity extends Activity implements OnTaskCompleted {
 
             prefs.edit().putString("remember_token", token).commit();
             bar.setVisibility(View.GONE);
-            goToMySchedules();
-
+            goToCalendar();
         }
-
     }
-
-
     private void hideUI()
     {
         emailText.setVisibility(View.INVISIBLE);
