@@ -2,14 +2,17 @@ package com.lakehead.thundr;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.view.LayoutInflater;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +44,8 @@ public class CourseActivity extends Activity implements OnTaskCompleted
     LinearLayout sectionInfoView;
     LinearLayout seasonInfoView;
     ProgressBar bar;
+    String tokenString;
+    SharedPreferences prefs;
 
 
     @Override
@@ -70,6 +75,10 @@ public class CourseActivity extends Activity implements OnTaskCompleted
         //sectionInfoView.setVisibility(View.INVISIBLE);
         seasonInfoView.setVisibility(View.INVISIBLE);
         bar = (ProgressBar) findViewById(R.id.loader);
+
+        prefs = this.getSharedPreferences("com.lakehead.thundr", Context.MODE_PRIVATE);
+        tokenString = prefs.getString("remember_token","");
+
     }
 
 
@@ -184,6 +193,15 @@ public class CourseActivity extends Activity implements OnTaskCompleted
 
                 TextView synonymView = (TextView) sectionInfoView.findViewById(R.id.section_synonym);
                 synonymView.setText(lecture.getString("synonym"));
+                final int id = lecture.getInt("id");
+
+                Button addButton = (Button) sectionInfoView.findViewById(R.id.add_to_schedule_button);
+                addButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new AddSectionTask(CourseActivity.this).execute("http://thundr.ca/api/schedules/add_section/" + id, tokenString);
+                    }
+                });
 
                 infoListLayout.addView(sectionInfoView);
                 RelativeLayout sectionInfoLayout = (RelativeLayout)sectionInfoView;
@@ -250,83 +268,92 @@ public class CourseActivity extends Activity implements OnTaskCompleted
 
     @Override
     public void onTaskCompleted(Object obj) {
-        this.jArray = (JSONArray)obj;
-        JSONObject jInfo = null;
-        try
+        if(obj.getClass() == JSONArray.class)
         {
-            jInfo = jArray.getJSONObject(0);
-
-            final ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
-            titleText = (TextView)findViewById(R.id.course_title);
-            codeText = (TextView)findViewById(R.id.course_code);
-            descriptText = (TextView)findViewById(R.id.course_description);
-            prereqText = (TextView)findViewById(R.id.course_prerequisites);
-
-
-            TextView courseTitleText = (TextView)findViewById(R.id.course_title);
-            TextView courseCodeText = (TextView)findViewById(R.id.course_code);
-            TextView courseDescriptText = (TextView)findViewById(R.id.course_description);
-            TextView coursePrereqText = (TextView)findViewById(R.id.course_prerequisites);
-
-            courseTitleText.setText(jInfo.getString("name"));
-            courseCodeText.setText(jInfo.getString("department") + "-" + jInfo.getString("course_code"));
-            courseDescriptText.setText(jInfo.getString("description"));
-            coursePrereqText.setText("Prerequisites: " + jInfo.getString("prerequisite"));
-
-
-
-
-            JSONObject fallSections = new JSONObject(jArray.getJSONObject(0).getString("fall"));
-            JSONObject winterSections = new JSONObject(((JSONObject)jArray.get(0)).getString("winter"));
-
-            if(!checkSeasonEmpty(fallSections))
+            this.jArray = (JSONArray)obj;
+            JSONObject jInfo = null;
+            try
             {
-                //FALL-----------------------------------------------
-                View seasonView;
-                LayoutInflater inflater = (LayoutInflater)   this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                seasonView = inflater.inflate(R.layout.course_season_info, null);
-                TextView seasonNameView = (TextView) seasonView.findViewById(R.id.season_name);
-                seasonNameView.setText("Fall");
+                jInfo = jArray.getJSONObject(0);
 
-                seasonInfoView.addView(seasonView);
-                LinearLayout seasonLayout = (LinearLayout)seasonView;
+                final ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+                titleText = (TextView)findViewById(R.id.course_title);
+                codeText = (TextView)findViewById(R.id.course_code);
+                descriptText = (TextView)findViewById(R.id.course_description);
+                prereqText = (TextView)findViewById(R.id.course_prerequisites);
 
 
-                addSection("lectures", seasonLayout, fallSections);
-                addSection("labs", seasonLayout, fallSections);
-                addSection("practicals", seasonLayout, fallSections);
-                addSection("tutorials", seasonLayout, fallSections);
+                TextView courseTitleText = (TextView)findViewById(R.id.course_title);
+                TextView courseCodeText = (TextView)findViewById(R.id.course_code);
+                TextView courseDescriptText = (TextView)findViewById(R.id.course_description);
+                TextView coursePrereqText = (TextView)findViewById(R.id.course_prerequisites);
+
+                courseTitleText.setText(jInfo.getString("name"));
+                courseCodeText.setText(jInfo.getString("department") + "-" + jInfo.getString("course_code"));
+                courseDescriptText.setText(jInfo.getString("description"));
+                coursePrereqText.setText("Prerequisites: " + jInfo.getString("prerequisite"));
+
+
+
+
+                JSONObject fallSections = new JSONObject(jArray.getJSONObject(0).getString("fall"));
+                JSONObject winterSections = new JSONObject(((JSONObject)jArray.get(0)).getString("winter"));
+
+                if(!checkSeasonEmpty(fallSections))
+                {
+                    //FALL-----------------------------------------------
+                    View seasonView;
+                    LayoutInflater inflater = (LayoutInflater)   this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    seasonView = inflater.inflate(R.layout.course_season_info, null);
+                    TextView seasonNameView = (TextView) seasonView.findViewById(R.id.season_name);
+                    seasonNameView.setText("Fall");
+
+                    seasonInfoView.addView(seasonView);
+                    LinearLayout seasonLayout = (LinearLayout)seasonView;
+
+
+                    addSection("lectures", seasonLayout, fallSections);
+                    addSection("labs", seasonLayout, fallSections);
+                    addSection("practicals", seasonLayout, fallSections);
+                    addSection("tutorials", seasonLayout, fallSections);
+                }
+
+                if(!checkSeasonEmpty(winterSections))
+                {
+                    //FALL-----------------------------------------------
+                    View seasonView;
+                    LayoutInflater inflater = (LayoutInflater)   this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    seasonView = inflater.inflate(R.layout.course_season_info, null);
+                    TextView seasonNameView = (TextView) seasonView.findViewById(R.id.season_name);
+                    seasonNameView.setText("Winter");
+
+                    seasonInfoView.addView(seasonView);
+                    LinearLayout seasonLayout = (LinearLayout)seasonView;
+
+
+                    addSection("lectures", seasonLayout, winterSections);
+                    addSection("labs", seasonLayout, winterSections);
+                    addSection("practicals", seasonLayout, winterSections);
+                    addSection("tutorials", seasonLayout, winterSections);
+                }
+
+
+            }
+            catch(Exception e)
+            {
+                Log.e("Exceptions", e.toString());
             }
 
-            if(!checkSeasonEmpty(winterSections))
-            {
-                //FALL-----------------------------------------------
-                View seasonView;
-                LayoutInflater inflater = (LayoutInflater)   this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                seasonView = inflater.inflate(R.layout.course_season_info, null);
-                TextView seasonNameView = (TextView) seasonView.findViewById(R.id.season_name);
-                seasonNameView.setText("Winter");
-
-                seasonInfoView.addView(seasonView);
-                LinearLayout seasonLayout = (LinearLayout)seasonView;
-
-
-                addSection("lectures", seasonLayout, winterSections);
-                addSection("labs", seasonLayout, winterSections);
-                addSection("practicals", seasonLayout, winterSections);
-                addSection("tutorials", seasonLayout, winterSections);
-            }
-
-
+            courseInfoLayout.setVisibility(View.VISIBLE);
+            seasonInfoView.setVisibility(View.VISIBLE);
+            bar.setVisibility(View.GONE);
         }
-        catch(Exception e)
+        else
         {
-            Log.e("Exceptions", e.toString());
+            Toast toast = Toast.makeText(getApplicationContext(), (String)obj, Toast.LENGTH_SHORT);
+            toast.show();
         }
 
-        courseInfoLayout.setVisibility(View.VISIBLE);
-        seasonInfoView.setVisibility(View.VISIBLE);
-        bar.setVisibility(View.GONE);
     }
 
 }

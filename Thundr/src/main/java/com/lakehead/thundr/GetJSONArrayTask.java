@@ -47,7 +47,11 @@ class GetJSONArrayTask extends AsyncTask<String, Void, JSONArray> {
             URI uri = new URI(params[0]);
             HttpClient httpclient = new DefaultHttpClient();
             HttpGet method = new HttpGet(uri);
-            Log.d("Debug","Getting URL: " + params[0]);
+            if(params.length > 1)
+            {
+                method.addHeader("Authorization", "Token " + params[1]);
+            }
+
             HttpResponse response = httpclient.execute(method);
             HttpEntity entity = response.getEntity();
             if(entity != null){

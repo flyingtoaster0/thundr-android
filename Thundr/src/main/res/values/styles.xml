@@ -19,4 +19,9 @@
 
     <style name="activated" parent="AppTheme"/>
 
+    <style name="plusButton">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+    </style>
+
 </resources>

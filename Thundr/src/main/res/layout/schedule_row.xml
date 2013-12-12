@@ -31,12 +31,13 @@
 
     <TextView
         android:id="@+id/instructor"
-        android:paddingLeft="16dp"
+        android:paddingLeft="128dp"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
         android:singleLine="true"
         android:layout_below="@id/course_name"
-        android:layout_toRightOf="@id/course_code"
         android:text="Dr. Benson"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentLeft="true" />
 </RelativeLayout>

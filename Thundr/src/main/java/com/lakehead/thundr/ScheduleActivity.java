@@ -59,6 +59,11 @@ public class ScheduleActivity extends Activity implements OnTaskCompleted, Actio
         startActivity(intent);
     }
 
+    private void goToCalendar()
+    {
+        finish();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -72,6 +77,10 @@ public class ScheduleActivity extends Activity implements OnTaskCompleted, Actio
         switch (item.getItemId()) {
             case R.id.action_add_class:
                 goToDeptList();
+                break;
+
+            case R.id.action_to_calendar:
+                goToCalendar();
                 break;
 
             default:
@@ -109,7 +118,7 @@ public class ScheduleActivity extends Activity implements OnTaskCompleted, Actio
 
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                //final String item = (String) parent.getItemAtPosition(position);
+                goToCourseActivity(position);
                 listview.setItemChecked(position, false);
             }
         });
@@ -137,7 +146,7 @@ public class ScheduleActivity extends Activity implements OnTaskCompleted, Actio
         {
             section = (JSONObject)jArray.get(listview.getCheckedItemPosition());
             int id = section.getInt("id");
-            new DeleteSectionTask(this).execute("http://thundr.ca/api/schedules/delete_section/"+id, "f4f79c9b11f98e2c3d0e18819b42d88e701ec59c");
+            new DeleteSectionTask(this).execute("http://thundr.ca/api/schedules/delete_section/"+id, token);
             adapter.remove(section);
         }
         catch(JSONException e)
@@ -187,5 +196,30 @@ public class ScheduleActivity extends Activity implements OnTaskCompleted, Actio
     public void onDestroyActionMode(ActionMode mode) {
         deselectAll();
         mode = null;
+    }
+
+    void goToCourseActivity(int index)
+    {
+        try
+        {
+            Intent intent = new Intent(ScheduleActivity.this, CourseActivity.class);
+
+            Bundle b = new Bundle();
+
+            JSONObject item = jArray.getJSONObject(index);
+            b.putString("department", item.getString("department"));
+            b.putString("course_code", item.getString("course_code"));
+            intent.putExtras(b);
+            startActivity(intent);
+
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            Log.e("Exceptions", e.toString());
+        }
     }
 }
