@@ -46,7 +46,7 @@ public class CalendarActivity extends Activity implements OnTaskCompleted
 
         prefs = this.getSharedPreferences("com.lakehead.thundr", Context.MODE_PRIVATE);
         token = prefs.getString("remember_token","");
-        new GetJSONArrayTask(this).execute("http://192.168.35.100:3000/api/schedules/classes", "cb5da6f4b4b014e61c612284e28ed192b5812c63");
+        new GetJSONArrayTask(this).execute("http://thundr/api/schedules/classes", token);
 
 
         monday = (RelativeLayout)findViewById(R.id.mondayRelativeLayout);

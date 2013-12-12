@@ -30,7 +30,7 @@ public class MainActivity extends Activity implements OnTaskCompleted {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new GetJSONArrayTask(this).execute("http://192.168.35.100:3000/api/departments");
+        new GetJSONArrayTask(this).execute("http://thundr/api/departments");
 
         listview = (ListView) findViewById(R.id.list);
 

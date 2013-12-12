@@ -49,7 +49,7 @@ public class ScheduleActivity extends Activity implements OnTaskCompleted, Actio
 
         prefs = this.getSharedPreferences("com.lakehead.thundr", Context.MODE_PRIVATE);
         token = prefs.getString("remember_token","");
-        new GetScheduleTask(this).execute("http://thundr.ca/api/schedules/show", "f4f79c9b11f98e2c3d0e18819b42d88e701ec59c");
+        new GetScheduleTask(this).execute("http://thundr.ca/api/schedules/show", token);
 
     }
 
