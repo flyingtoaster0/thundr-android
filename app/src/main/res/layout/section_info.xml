@@ -33,15 +33,27 @@
         android:id="@+id/section_synonym"
         android:layout_gravity="left"
         android:layout_width="wrap_content"
-        android:layout_height="26dp"
+        android:layout_height="wrap_content"
         android:text="Synonym"
         android:textSize="16sp"
+        android:layout_toRightOf="@+id/dash" />
+
+    <TextView
+        android:id="@+id/dash"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:text="@string/course_code_instructor_divider"
+        android:textSize="16sp"
+        android:layout_toRightOf="@+id/section_full_code" />
+
+    <Button
+        style="@style/plusButton"
+        android:text="+"
+        android:id="@+id/add_to_schedule_button"
         android:layout_alignParentRight="true" />
-
-
-
-
-
 
 
 </RelativeLayout>
