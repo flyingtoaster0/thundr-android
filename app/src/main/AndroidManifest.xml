@@ -40,6 +40,8 @@
 
         <activity android:name="com.flyingtoaster.thundr.CourseActivity">
         </activity>
+
+        <activity android:name="com.flyingtoaster.thundr.CourseListActivity"/>
     </application>
 
 </manifest>

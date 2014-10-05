@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /build
 =======
 .gradle
@@ -6,5 +5,5 @@
 /.idea/workspace.xml
 .DS_Store
 /.idea/*
+.idea
 *.apk
->>>>>>> 1fbd3a0f0f3a9bce66b44619eced71aa8debeaae
