@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/section_info_area"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:divider="#E0E0E0"
+    android:dividerHeight="1dp"
+    android:padding="4dp">
+
+
+
+    <TextView
+        android:id="@+id/day_of_week"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:text="Monday"
+        android:textSize="16sp"
+        android:paddingRight="8dp"
+        android:gravity="left" />
+
+    <!--TextView
+        android:id="@+id/comma_divider"
+        android:layout_gravity="left"
+        android:paddingRight="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:text="@string/comma_divider"
+        android:textSize="16sp" /-->
+    <TextView
+        android:id="@+id/room"
+        android:layout_gravity="right"
+        android:paddingLeft="28dp"
+        android:paddingRight="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:text="AT2005"
+        android:textSize="16sp"
+        android:gravity="right"
+        android:layout_alignParentRight="true" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/course_time"
+        android:layout_toLeftOf="@id/room">
+        <TextView
+            android:id="@+id/start_time"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:text="10:00AM"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/divider"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:text="test"
+            android:layout_toRightOf="@id/start_time"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/end_time"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:text="11:30AM"
+            android:layout_toRightOf="@id/divider"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
