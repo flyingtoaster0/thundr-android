@@ -1,107 +1,110 @@
 package com.flyingtoaster.thundr;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.AdapterView;
-import android.content.Intent;
-import android.widget.ListView;
-import org.json.JSONArray;
-import org.json.JSONException;
-import android.app.ProgressDialog;
-import android.widget.SearchView;
-import android.app.SearchManager;
-import android.content.Context;
+import android.widget.ImageView;
 
-import android.widget.ProgressBar;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingFragmentActivity;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-import java.util.ArrayList;
+/**
+ * Created by tim on 2014-10-05.
+ */
+public class MainActivity extends SlidingFragmentActivity {
+    static final int FRAGMENT_MY_COURSES = 1;
+    static final int FRAGMENT_TODAY = 2;
+    static final int FRAGMENT_BROWSE = 3;
+    static final int FRAGMENT_ABOUT = 5;
 
-public class MainActivity extends Activity implements GetJSONArrayListener {
-    ListView listview;
-    ProgressDialog progressBar;
-    JSONArray jArray;
-    ProgressBar bar;
+    MenuFragment mMenuFragment;
+    Fragment mActiveFragment;
+
+    ImageView mOpenMenuButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("TEST");
+        // set the content view
         setContentView(R.layout.activity_main);
+        setBehindContentView(R.layout.navigation_menu);
+        // configure the SlidingMenu
 
-        new GetJSONArrayTask(this, "http://thundr.ca/api/departments").execute();
+        SlidingMenu menu = getSlidingMenu();
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setShadowWidthRes(R.dimen.shadow_width);
+        menu.setShadowDrawable(R.drawable.shadow);
+        menu.setBehindOffsetRes(R.dimen.behind_offset);
+        menu.setFadeDegree(0.35f);
+        //menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        //menu.setMenu(R.layout.navigation_menu);
 
-        listview = (ListView) findViewById(R.id.list);
-
-
-        bar = (ProgressBar) findViewById(R.id.loader);
-
-        //progressBar = new ProgressDialog(this, ProgressDialog.STYLE_SPINNER);
-        //progressBar.setCancelable(false);
-        //progressBar.setMessage("Loading departments...");
-        //progressBar.show();
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
-        return true;
-    }
-
-    public void onJSONArrayPreExecute(){};
-    public void onJSONArrayProgressUpdate(String... params){};
-    public void onJSONArrayPostExecute(JSONArray jArray) {
-        this.jArray = jArray;
-        final ArrayList<String> list = new ArrayList<String>();
-
-        try
-        {
-            for (int i = 0; i < jArray.length(); ++i) {
-                list.add(jArray.getJSONObject(i).getString("dept_name"));
-            }
-        }
-        catch(JSONException e)
-        {
-            e.printStackTrace();
-        }
-
-        final StableArrayAdapter adapter = new StableArrayAdapter(this,
-                android.R.layout.simple_list_item_1, list);
-        listview.setAdapter(adapter);
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+        mOpenMenuButton = (ImageView)findViewById(R.id.menu_open_button);
+        mOpenMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
-
-                try
-                {
-                    final String deptCode = (String)MainActivity.this.jArray.getJSONObject(position).get("dept_code");
-                    Intent intent = new Intent(MainActivity.this, CourseListActivity.class);
-
-                    Bundle b = new Bundle();
-                    b.putString("dept_code", deptCode);
-                    intent.putExtras(b);
-                    startActivity(intent);
-
-                }
-                catch(JSONException e)
-                {
-                    e.printStackTrace();
-                }
+            public void onClick(View v) {
+                getSlidingMenu().showMenu();
             }
         });
-        bar.setVisibility(View.GONE);
-        //progressBar.dismiss();
-    };
-    public void onJSONArrayCancelled(){};
+
+        if (savedInstanceState == null) {
+            FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
+            mMenuFragment = new MenuFragment();
+            t.replace(R.id.navigation_menu, mMenuFragment);
+            t.commit();
+            getSupportFragmentManager().executePendingTransactions();
+        }
+
+        goToFragment(FRAGMENT_MY_COURSES);
+    }
+
+    public void goToFragment(int fragmentNum) {
+        FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
+        boolean shouldReplace = true;
+
+        switch (fragmentNum) {
+            case FRAGMENT_MY_COURSES:
+                if (mActiveFragment instanceof MyCoursesFragment) {
+                    shouldReplace = false;
+                } else {
+                    mActiveFragment = new MyCoursesFragment();
+                }
+                break;
+            case FRAGMENT_BROWSE:
+                if (mActiveFragment instanceof BrowseFragment) {
+                    shouldReplace = false;
+                } else {
+                    mActiveFragment = new BrowseFragment();
+                }
+                break;
+            case FRAGMENT_TODAY:
+                if (mActiveFragment instanceof TodayFragment) {
+                    shouldReplace = false;
+                } else {
+                    mActiveFragment = new TodayFragment();
+                }
+                break;
+            case FRAGMENT_ABOUT:
+                if (mActiveFragment instanceof AboutFragment) {
+                    shouldReplace = false;
+                } else {
+                    mActiveFragment = new AboutFragment();
+                }
+                break;
+        }
+
+        if (!shouldReplace || mActiveFragment == null) {
+            getSlidingMenu().showContent();
+            return;
+        }
+
+        t.replace(R.id.active_fragment, mActiveFragment);
+        t.commit();
+        getSupportFragmentManager().executePendingTransactions();
+        getSlidingMenu().showContent(true);
+    }
 }

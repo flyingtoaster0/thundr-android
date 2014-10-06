@@ -47,4 +47,13 @@
     <string name="add_course_caption">You haven\'t added any courses yet</string>
     <string name="add_one_now">Add one now?</string>
 
+    <string name="courses">COURSES</string>
+    <string name="app">APP</string>
+    <string name="collection">Collection</string>
+    <string name="browse">Browse</string>
+    <string name="today">Today</string>
+    <string name="about">About</string>
+
+    <string name="contact_email">flyingtoaster0@gmail.com</string>
+
 </resources>

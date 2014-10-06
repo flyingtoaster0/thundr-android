@@ -12,6 +12,17 @@
     <dimen name="medium_margin">16dp</dimen>
     <dimen name="login_title">24sp</dimen>
 
+
+
+    <dimen name="menu_section_text_size">12sp</dimen>
+    <dimen name="menu_item_text_size">18sp</dimen>
+    <dimen name="menu_search_text_size">12sp</dimen>
+
+    <dimen name="menu_list_item_padding">12dp</dimen>
+    <dimen name="menu_list_padding">24dp</dimen>
+    <dimen name="menu_list_heading_top_padding">32dp</dimen>
+
+
     <dimen name="behind_offset">64dp</dimen>
     <dimen name="shadow_width">16dp</dimen>
 </resources>
