@@ -11,4 +11,7 @@
     <dimen name="small_margin">8dp</dimen>
     <dimen name="medium_margin">16dp</dimen>
     <dimen name="login_title">24sp</dimen>
+
+    <dimen name="behind_offset">64dp</dimen>
+    <dimen name="shadow_width">16dp</dimen>
 </resources>
