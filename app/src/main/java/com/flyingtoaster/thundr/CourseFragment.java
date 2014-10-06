@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,12 +29,11 @@ import java.text.ParseException;
 /**
  * Created by tim on 10/15/13.
  */
-public class CourseActivity extends Activity implements GetJSONArrayListener
+public class CourseFragment extends Fragment implements GetJSONArrayListener
 {
     String courseDept;
     String courseCode;
     String courseSection;
-    JSONArray jArray;
     JSONObject courseObj;
 
     TextView titleText;
@@ -42,36 +44,48 @@ public class CourseActivity extends Activity implements GetJSONArrayListener
     LinearLayout courseInfoLayout;
     LinearLayout sectionInfoView;
     LinearLayout seasonInfoView;
-    ProgressBar bar;
 
+    private View mRootView;
+    ListView listview;
+    JSONArray jArray;
+    ProgressBar bar;
+    FragmentCallbackListener mListener;
+    private String mDept;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_course);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mRootView = inflater.inflate(R.layout.activity_course, container, false);
 
 
-        Bundle b = getIntent().getExtras();
-        courseDept = b.getString("department");
+
+        Bundle b = getArguments();
+        courseDept = b.getString("dept_code");
         courseCode = b.getString("course_code");
-        //courseSection = b.getString("section_code");
 
         Log.d("Debug", "Opened course activity. Using: " + courseDept + "-" + courseCode);
 
-        new GetJSONArrayTask(this, "http://thundr.ca/api/course_info/"+courseDept+"/"+courseCode).execute();
 
         //sectionInfoView = (LinearLayout)findViewById(R.id.section_info);
-        seasonInfoView = (LinearLayout)findViewById(R.id.season_info);
+        seasonInfoView = (LinearLayout)mRootView.findViewById(R.id.season_info);
         //sectionInfoView.setSelector(R.color.transparent);
 
-        courseInfoLayout = (LinearLayout) findViewById(R.id.course_info);
+        courseInfoLayout = (LinearLayout)mRootView.findViewById(R.id.course_info);
         courseInfoLayout.setVisibility(View.INVISIBLE);
 
         //sectionInfoLayout = (ListView) findViewById(R.id.section_info);
         //sectionInfoView.setVisibility(View.INVISIBLE);
         seasonInfoView.setVisibility(View.INVISIBLE);
-        bar = (ProgressBar) findViewById(R.id.loader);
+        bar = (ProgressBar)mRootView.findViewById(R.id.loader);
+
+
+        new GetJSONArrayTask(this, "http://thundr.ca/api/course_info/"+courseDept+"/"+courseCode).execute();
+
+        return mRootView;
     }
 
 
@@ -168,7 +182,7 @@ public class CourseActivity extends Activity implements GetJSONArrayListener
     {
         try
         {
-            LayoutInflater inflater = (LayoutInflater)   this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater)   this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             for(int i=0; i<sectionsList.getJSONArray(sectionType).length(); i++)
             {
                 JSONObject lecture = (JSONObject)sectionsList.getJSONArray(sectionType).get(i);
@@ -259,16 +273,16 @@ public class CourseActivity extends Activity implements GetJSONArrayListener
             jInfo = jArray.getJSONObject(0);
 
             final ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
-            titleText = (TextView)findViewById(R.id.course_title);
-            codeText = (TextView)findViewById(R.id.course_code);
-            descriptText = (TextView)findViewById(R.id.course_description);
-            prereqText = (TextView)findViewById(R.id.course_prerequisites);
+            titleText = (TextView)mRootView.findViewById(R.id.course_title);
+            codeText = (TextView)mRootView.findViewById(R.id.course_code);
+            descriptText = (TextView)mRootView.findViewById(R.id.course_description);
+            prereqText = (TextView)mRootView.findViewById(R.id.course_prerequisites);
 
 
-            TextView courseTitleText = (TextView)findViewById(R.id.course_title);
-            TextView courseCodeText = (TextView)findViewById(R.id.course_code);
-            TextView courseDescriptText = (TextView)findViewById(R.id.course_description);
-            TextView coursePrereqText = (TextView)findViewById(R.id.course_prerequisites);
+            TextView courseTitleText = (TextView)mRootView.findViewById(R.id.course_title);
+            TextView courseCodeText = (TextView)mRootView.findViewById(R.id.course_code);
+            TextView courseDescriptText = (TextView)mRootView.findViewById(R.id.course_description);
+            TextView coursePrereqText = (TextView)mRootView.findViewById(R.id.course_prerequisites);
 
             courseTitleText.setText(jInfo.getString("name"));
             courseCodeText.setText(jInfo.getString("department") + "-" + jInfo.getString("course_code"));
@@ -285,7 +299,7 @@ public class CourseActivity extends Activity implements GetJSONArrayListener
             {
                 //FALL-----------------------------------------------
                 View seasonView;
-                LayoutInflater inflater = (LayoutInflater)   this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = (LayoutInflater)   this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 seasonView = inflater.inflate(R.layout.course_season_info, null);
                 TextView seasonNameView = (TextView) seasonView.findViewById(R.id.season_name);
                 seasonNameView.setText("Fall");
@@ -304,7 +318,7 @@ public class CourseActivity extends Activity implements GetJSONArrayListener
             {
                 //FALL-----------------------------------------------
                 View seasonView;
-                LayoutInflater inflater = (LayoutInflater)   this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = (LayoutInflater)   this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 seasonView = inflater.inflate(R.layout.course_season_info, null);
                 TextView seasonNameView = (TextView) seasonView.findViewById(R.id.season_name);
                 seasonNameView.setText("Winter");

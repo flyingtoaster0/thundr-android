@@ -13,5 +13,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/menu_item_text_size"
-        android:text="@string/collection"/>
+        android:text="@string/collection"
+        android:textColor="@android:color/white"/>
 </LinearLayout>

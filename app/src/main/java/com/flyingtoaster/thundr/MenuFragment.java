@@ -53,6 +53,8 @@ public class MenuFragment extends Fragment {
         mSearchEditText = (EditText)mRootView.findViewById(R.id.menu_searchedittext);
         mSearchEditText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
+        mRootView.setFocusableInTouchMode(true);
+        mRootView.requestFocus();
         return mRootView;
     }
 }

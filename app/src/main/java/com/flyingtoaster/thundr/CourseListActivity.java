@@ -84,6 +84,7 @@ public class CourseListActivity extends Activity implements GetJSONArrayListener
                 final JSONObject item = (JSONObject)parent.getItemAtPosition(position);
                 try
                 {
+                    /*
                     Intent intent = new Intent(CourseListActivity.this, CourseActivity.class);
 
                     Bundle b = new Bundle();
@@ -92,10 +93,11 @@ public class CourseListActivity extends Activity implements GetJSONArrayListener
                     intent.putExtras(b);
                     startActivity(intent);
 
+
                 }
                 catch (JSONException e)
                 {
-                    e.printStackTrace();
+                    e.printStackTrace();*/
                 }
                 catch(Exception e)
                 {

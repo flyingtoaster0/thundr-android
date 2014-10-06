@@ -7,7 +7,7 @@
         android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:background="@android:color/black">
+        android:background="@drawable/bar">
 
         <ImageView
             android:id="@+id/menu_open_button"

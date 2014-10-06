@@ -90,6 +90,7 @@ public class SearchResultsActivity extends Activity  implements GetJSONArrayList
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 final JSONObject item = (JSONObject)parent.getItemAtPosition(position);
+                /*
                 try
                 {
                     Intent intent = new Intent(SearchResultsActivity.this, CourseActivity.class);
@@ -104,6 +105,7 @@ public class SearchResultsActivity extends Activity  implements GetJSONArrayList
                 {
                     e.printStackTrace();
                 }
+                */
             }
         });
         //progressBar.dismiss();

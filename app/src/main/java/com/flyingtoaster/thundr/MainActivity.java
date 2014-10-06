@@ -2,26 +2,34 @@ package com.flyingtoaster.thundr;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingFragmentActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
+import java.util.Stack;
+
 /**
  * Created by tim on 2014-10-05.
  */
-public class MainActivity extends SlidingFragmentActivity {
+public class MainActivity extends SlidingFragmentActivity implements FragmentCallbackListener {
     static final int FRAGMENT_MY_COURSES = 1;
     static final int FRAGMENT_TODAY = 2;
     static final int FRAGMENT_BROWSE = 3;
     static final int FRAGMENT_ABOUT = 5;
 
+    int mCurrentSection;
+
     MenuFragment mMenuFragment;
     Fragment mActiveFragment;
 
     ImageView mOpenMenuButton;
+
+    Stack<Fragment> browseStack;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,9 @@ public class MainActivity extends SlidingFragmentActivity {
             getSupportFragmentManager().executePendingTransactions();
         }
 
+        browseStack = new Stack<Fragment>();
+
+
         goToFragment(FRAGMENT_MY_COURSES);
     }
 
@@ -68,31 +79,37 @@ public class MainActivity extends SlidingFragmentActivity {
 
         switch (fragmentNum) {
             case FRAGMENT_MY_COURSES:
-                if (mActiveFragment instanceof MyCoursesFragment) {
+                if (mCurrentSection == FRAGMENT_MY_COURSES) {
                     shouldReplace = false;
                 } else {
                     mActiveFragment = new MyCoursesFragment();
+                    mCurrentSection = FRAGMENT_MY_COURSES;
                 }
                 break;
             case FRAGMENT_BROWSE:
-                if (mActiveFragment instanceof BrowseFragment) {
+                if (mCurrentSection == FRAGMENT_BROWSE) {
                     shouldReplace = false;
                 } else {
-                    mActiveFragment = new BrowseFragment();
+                    BrowseFragment browseFragment = new BrowseFragment();
+                    browseFragment.setFragmentCallbackListener(this);
+                    mActiveFragment = browseFragment;
+                    mCurrentSection = FRAGMENT_BROWSE;
                 }
                 break;
             case FRAGMENT_TODAY:
-                if (mActiveFragment instanceof TodayFragment) {
+                if (mCurrentSection == FRAGMENT_TODAY) {
                     shouldReplace = false;
                 } else {
                     mActiveFragment = new TodayFragment();
+                    mCurrentSection = FRAGMENT_TODAY;
                 }
                 break;
             case FRAGMENT_ABOUT:
-                if (mActiveFragment instanceof AboutFragment) {
+                if (mCurrentSection == FRAGMENT_ABOUT) {
                     shouldReplace = false;
                 } else {
                     mActiveFragment = new AboutFragment();
+                    mCurrentSection = FRAGMENT_ABOUT;
                 }
                 break;
         }
@@ -106,5 +123,43 @@ public class MainActivity extends SlidingFragmentActivity {
         t.commit();
         getSupportFragmentManager().executePendingTransactions();
         getSlidingMenu().showContent(true);
+    }
+
+    public void onDeptSelected(Bundle bundle) {
+        browseStack.add(mActiveFragment);
+        FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
+        DepartmentListFragment deptListFragment = new DepartmentListFragment();
+        deptListFragment.setArguments(bundle);
+        deptListFragment.setFragmentCallbackListener(this);
+        mActiveFragment = deptListFragment;
+        t.replace(R.id.active_fragment, deptListFragment);
+        t.commit();
+        getSupportFragmentManager().executePendingTransactions();
+        getSlidingMenu().showContent(true);
+    }
+
+    public void onCourseSelected(Bundle bundle) {
+        browseStack.add(mActiveFragment);
+        FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
+        CourseFragment courseFragment = new CourseFragment();
+        courseFragment.setArguments(bundle);
+        mActiveFragment = courseFragment;
+        t.replace(R.id.active_fragment, courseFragment);
+        t.commit();
+        getSupportFragmentManager().executePendingTransactions();
+        getSlidingMenu().showContent(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!browseStack.empty()) {
+            FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
+            mActiveFragment = browseStack.pop();
+            t.replace(R.id.active_fragment, mActiveFragment);
+            t.commit();
+            getSupportFragmentManager().executePendingTransactions();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
