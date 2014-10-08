@@ -40,7 +40,7 @@ public class MenuFragment extends Fragment {
         list.add(null);
         list.add(null);
         list.add(null);
-        list.add(null);
+        //list.add(null);
 
         mListView.setAdapter(new MenuListAdapter(getActivity(), list));
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

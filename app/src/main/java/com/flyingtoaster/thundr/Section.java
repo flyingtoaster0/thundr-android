@@ -1,6 +1,12 @@
 package com.flyingtoaster.thundr;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by tim on 10/7/14.
@@ -122,5 +128,65 @@ public class Section {
 
     public void setKlasses(ArrayList<Klass> klasses) {
         this.mKlasses = klasses;
+    }
+
+    public String getFullCourseCode() {
+        return mDepartment + "-" + mCourseCode;
+    }
+
+    public String getFullSectionCode() {
+        return mDepartment + "-" + mCourseCode + "-" + mSectionCode;
+    }
+
+    public String toJSON() {
+        return new Gson().toJson(this);
+    }
+
+    public void saveToPreferences(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("sections", Context.MODE_PRIVATE);
+        prefs.edit().putString(this.getFullSectionCode(), this.toJSON()).apply();
+    }
+
+    public static void saveToPreferences(Context context, Section section) {
+        SharedPreferences prefs = context.getSharedPreferences("sections", Context.MODE_PRIVATE);
+        prefs.edit().putString(section.getFullSectionCode(), section.toJSON()).apply();
+    }
+
+    public static ArrayList<String> getStoredSectionCodes(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("sections", Context.MODE_PRIVATE);
+        Map<String, ?> savedSections = prefs.getAll();
+        ArrayList<String> sectionCodes = new ArrayList<String>();
+
+        for (String key : savedSections.keySet()) {
+            sectionCodes.add(key);
+        }
+
+        return sectionCodes;
+    }
+
+    public static Section getStoredSection(String fullSectionCode, Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("sections", Context.MODE_PRIVATE);
+        String jsonString = prefs.getString(fullSectionCode, "");
+        if (jsonString == null) return null;
+
+        Gson gson = new Gson();
+        Section section = gson.fromJson(jsonString, Section.class);
+
+        if (section == null) return null;
+
+        return section;
+    }
+
+    public static ArrayList<Section> getAllStoredSections(Context context) {
+        ArrayList<Section> allSections = new ArrayList<Section>();
+
+        for (String key : getStoredSectionCodes(context)) {
+            Section section = getStoredSection(key, context);
+            if (section != null) {
+                allSections.add(section);
+            }
+        }
+
+        return allSections;
     }
 }

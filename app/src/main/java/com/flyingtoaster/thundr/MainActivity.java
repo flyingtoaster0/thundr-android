@@ -19,8 +19,8 @@ import java.util.Stack;
 public class MainActivity extends SlidingFragmentActivity implements FragmentCallbackListener {
     static final int FRAGMENT_MY_COURSES = 1;
     static final int FRAGMENT_TODAY = 2;
-    static final int FRAGMENT_BROWSE = 3;
-    static final int FRAGMENT_ABOUT = 5;
+    static final int FRAGMENT_BROWSE = 2;
+    static final int FRAGMENT_ABOUT = 4;
 
     int mCurrentSection;
 
@@ -84,6 +84,7 @@ public class MainActivity extends SlidingFragmentActivity implements FragmentCal
                 } else {
                     mActiveFragment = new MyCoursesFragment();
                     mCurrentSection = FRAGMENT_MY_COURSES;
+                    emptyBrowseStack();
                 }
                 break;
             case FRAGMENT_BROWSE:
@@ -96,6 +97,7 @@ public class MainActivity extends SlidingFragmentActivity implements FragmentCal
                     mCurrentSection = FRAGMENT_BROWSE;
                 }
                 break;
+            /*
             case FRAGMENT_TODAY:
                 if (mCurrentSection == FRAGMENT_TODAY) {
                     shouldReplace = false;
@@ -104,12 +106,14 @@ public class MainActivity extends SlidingFragmentActivity implements FragmentCal
                     mCurrentSection = FRAGMENT_TODAY;
                 }
                 break;
+            */
             case FRAGMENT_ABOUT:
                 if (mCurrentSection == FRAGMENT_ABOUT) {
                     shouldReplace = false;
                 } else {
                     mActiveFragment = new AboutFragment();
                     mCurrentSection = FRAGMENT_ABOUT;
+                    emptyBrowseStack();
                 }
                 break;
         }
@@ -158,8 +162,16 @@ public class MainActivity extends SlidingFragmentActivity implements FragmentCal
             t.replace(R.id.active_fragment, mActiveFragment);
             t.commit();
             getSupportFragmentManager().executePendingTransactions();
+        } else if (mActiveFragment instanceof MyCoursesFragment && ((MyCoursesFragment)mActiveFragment).isModalShowing()) {
+            ((MyCoursesFragment)mActiveFragment).onBackPressed();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void emptyBrowseStack() {
+        while (browseStack.size() > 0) {
+            browseStack.pop();
         }
     }
 }

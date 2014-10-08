@@ -13,6 +13,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 /**
@@ -70,6 +71,15 @@ public class CourseExpandableAdapter extends BaseExpandableListAdapter {
         if (object instanceof Section) {
             rowView = inflater.inflate(R.layout.course_row_section, parent, false);
 
+            final Section section = (Section)object;
+            ArrayList<Klass> klassArray = new ArrayList<Klass>();
+            for (int i=0; i<sections.get(season).size(); i++) {
+                if ((sections.get(season).get(i) instanceof Klass) && (((Klass)sections.get(season).get(i))).getSecionID() == section.getID()) {
+                    klassArray.add((Klass)sections.get(season).get(i));
+                }
+            }
+            section.setKlasses(klassArray);
+
             final Button mSaveButton;
             final ImageView mOpenButton;
             final SlidingMenu mSlidingMenu;
@@ -90,7 +100,9 @@ public class CourseExpandableAdapter extends BaseExpandableListAdapter {
             mSaveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Gson gson = new Gson();
+                    //Log.d("TEST", gson.toJson(section));
+                    Section.saveToPreferences(context, section);
                 }
             });
 

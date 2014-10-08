@@ -38,19 +38,21 @@ public class MenuListAdapter extends ArrayAdapter<Object> {
                 layoutRes=R.layout.menu_item;
                 titleRes = R.string.collection;
                 break;
+            /*
             case 2:
                 layoutRes=R.layout.menu_item;
                 titleRes = R.string.today;
                 break;
-            case 3:
+            */
+            case 2:
                 layoutRes=R.layout.menu_item;
                 titleRes = R.string.browse;
                 break;
-            case 4:
+            case 3:
                 layoutRes=R.layout.menu_heading;
                 titleRes = R.string.app;
                 break;
-            case 5:
+            case 4:
                 layoutRes=R.layout.menu_item;
                 titleRes = R.string.about;
                 break;
