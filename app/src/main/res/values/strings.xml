@@ -43,17 +43,15 @@
     <string name="time10pm">10PM</string>
     <string name="time11pm">11PM</string>
     <string name="title_activity_calendar">CalendarActivity</string>
-
     <string name="add_course_caption">You haven\'t added any klasses yet</string>
     <string name="add_one_now">Add one now?</string>
-
     <string name="courses">COURSES</string>
     <string name="app">APP</string>
     <string name="collection">Collection</string>
     <string name="browse">Browse</string>
     <string name="today">Today</string>
     <string name="about">About</string>
-
     <string name="contact_email">flyingtoaster0@gmail.com</string>
+    <string name="title_activity_test">TestActivity</string>
 
 </resources>
