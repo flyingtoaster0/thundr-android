@@ -25,33 +25,12 @@
         android:orientation="horizontal"
         android:layout_centerHorizontal="true">
         <TextView
-            android:id="@+id/start_time"
+            android:id="@+id/klass_time_textview"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:layout_width="wrap_content"
             android:layout_height="26dp"
-            android:text="10:00AM"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/divider"
-            android:layout_gravity="center_horizontal"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="26dp"
-            android:text="-"
-            android:layout_toRightOf="@id/start_time"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/end_time"
-            android:layout_gravity="center_horizontal"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="26dp"
-            android:text="11:30AM"
+            android:text="10:00AM - 12:00AM"
             android:textSize="16sp" />
     </LinearLayout>
     <TextView

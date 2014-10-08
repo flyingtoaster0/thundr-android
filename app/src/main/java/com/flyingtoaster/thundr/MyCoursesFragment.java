@@ -40,6 +40,11 @@ public class MyCoursesFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mModal = new MyCourseModalFragment();
 
+                String fullSectionCode = (String)parent.getItemAtPosition(position);
+                Bundle args = new Bundle();
+                args.putString("full_section_code", fullSectionCode);
+                mModal.setArguments(args);
+
                 FragmentTransaction t = MyCoursesFragment.this.getActivity().getSupportFragmentManager().beginTransaction();
                 t.replace(R.id.my_course_modal, mModal);
                 t.commit();

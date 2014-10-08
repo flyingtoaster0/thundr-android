@@ -58,4 +58,8 @@ public class Klass {
     public void setRoom(String mRoom) {
         this.mRoom = mRoom;
     }
+
+    public String getStartEndTime() {
+        return this.getStartTime() + "-" + this.getEndTime();
+    }
 }
