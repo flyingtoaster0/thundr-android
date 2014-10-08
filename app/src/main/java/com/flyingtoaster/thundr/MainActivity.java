@@ -41,8 +41,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallbackLi
         //setBehindContentView(R.layout.navigation_menu);
         // configure the SlidingMenu
 
-        //SlidingMenu mMenu; // = getSlidingMenu();
-        mMenu = (SlidingMenu)findViewById(R.id.main_sliding_menu);
+        mMenu = new SlidingMenu(this);
         mMenu.setMode(SlidingMenu.LEFT);
         mMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         mMenu.setShadowWidthRes(R.dimen.shadow_width);
@@ -50,7 +49,7 @@ public class MainActivity extends FragmentActivity implements FragmentCallbackLi
         mMenu.setBehindOffsetRes(R.dimen.behind_offset);
         mMenu.setFadeDegree(0.35f);
         mMenu.setMenu(R.layout.navigation_menu);
-        //mMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        mMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         //mMenu.setMenu(R.layout.navigation_menu);
 
 

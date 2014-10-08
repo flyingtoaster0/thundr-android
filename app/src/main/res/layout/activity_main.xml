@@ -19,15 +19,4 @@
             android:scaleType="fitCenter"
             android:src="@drawable/g_menu_grey" />
     </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/active_fragment"
-        android:layout_below="@id/topbar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" />
-    <com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
-        android:id="@+id/main_sliding_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 </RelativeLayout>
