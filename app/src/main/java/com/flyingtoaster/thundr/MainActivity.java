@@ -84,6 +84,7 @@ public class MainActivity extends SlidingFragmentActivity implements FragmentCal
                 } else {
                     mActiveFragment = new MyCoursesFragment();
                     mCurrentSection = FRAGMENT_MY_COURSES;
+                    emptyBrowseStack();
                 }
                 break;
             case FRAGMENT_BROWSE:
@@ -112,6 +113,7 @@ public class MainActivity extends SlidingFragmentActivity implements FragmentCal
                 } else {
                     mActiveFragment = new AboutFragment();
                     mCurrentSection = FRAGMENT_ABOUT;
+                    emptyBrowseStack();
                 }
                 break;
         }
@@ -160,8 +162,16 @@ public class MainActivity extends SlidingFragmentActivity implements FragmentCal
             t.replace(R.id.active_fragment, mActiveFragment);
             t.commit();
             getSupportFragmentManager().executePendingTransactions();
+        } else if (mActiveFragment instanceof MyCoursesFragment && ((MyCoursesFragment)mActiveFragment).isModalShowing()) {
+            ((MyCoursesFragment)mActiveFragment).onBackPressed();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void emptyBrowseStack() {
+        while (browseStack.size() > 0) {
+            browseStack.pop();
         }
     }
 }

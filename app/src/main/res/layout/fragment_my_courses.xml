@@ -6,4 +6,11 @@
         android:id="@+id/my_courses_listview"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"/>
+
+    <LinearLayout
+        android:id="@+id/my_course_modal"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_width="320dp"
+        android:layout_height="480dp"/>
 </RelativeLayout>
