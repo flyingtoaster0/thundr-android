@@ -95,7 +95,7 @@ public class DepartmentListFragment extends Fragment implements GetJSONArrayList
                 }
                 catch(Exception e)
                 {
-                    Log.e("Exceptions", e.toString());
+                    e.printStackTrace();
                 }
             }
         });

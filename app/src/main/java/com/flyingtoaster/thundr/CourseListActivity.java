@@ -101,7 +101,7 @@ public class CourseListActivity extends Activity implements GetJSONArrayListener
                 }
                 catch(Exception e)
                 {
-                    Log.e("Exceptions", e.toString());
+                    e.printStackTrace();
                 }
             }
 

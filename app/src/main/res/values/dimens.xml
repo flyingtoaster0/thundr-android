@@ -25,4 +25,8 @@
 
     <dimen name="behind_offset">64dp</dimen>
     <dimen name="shadow_width">16dp</dimen>
+
+    <dimen name="small_behind_width">92dp</dimen>
+    <item name="small_behind_scroll_scale" format="float" type="dimen">0.75</item>
+
 </resources>

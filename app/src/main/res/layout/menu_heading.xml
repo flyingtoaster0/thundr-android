@@ -12,5 +12,5 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/menu_section_text_size"
         android:text="@string/courses"
-        android:textColor="@android:color/white"/>
+        android:textColor="@color/light_grey"/>
 </LinearLayout>

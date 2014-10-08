@@ -27,9 +27,9 @@
             android:textSize="@dimen/menu_search_text_size"
             android:singleLine="true"
             android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"
+            android:textColorHint="@color/light_grey"
             android:background="@drawable/edittext"
-            android:textCursorDrawable="@drawable/white_cusor"/>
+            android:textCursorDrawable="@color/light_grey"/>
     </LinearLayout>
 
     <ListView

@@ -1,14 +1,12 @@
 package com.flyingtoaster.thundr;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -25,6 +23,7 @@ import java.util.ArrayList;
 
 import java.util.Date;
 import java.text.ParseException;
+import java.util.HashMap;
 
 /**
  * Created by tim on 10/15/13.
@@ -52,6 +51,9 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
     FragmentCallbackListener mListener;
     private String mDept;
 
+
+    private ExpandableListView mExpListView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +61,7 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.activity_course, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_course, container, false);
 
 
 
@@ -71,15 +73,17 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
 
 
         //sectionInfoView = (LinearLayout)findViewById(R.id.section_info);
-        seasonInfoView = (LinearLayout)mRootView.findViewById(R.id.season_info);
+        //seasonInfoView = (LinearLayout)mRootView.findViewById(R.id.season_info);
         //sectionInfoView.setSelector(R.color.transparent);
 
         courseInfoLayout = (LinearLayout)mRootView.findViewById(R.id.course_info);
         courseInfoLayout.setVisibility(View.INVISIBLE);
 
+        mExpListView = (ExpandableListView)mRootView.findViewById(R.id.expand_fall_list);
+
         //sectionInfoLayout = (ListView) findViewById(R.id.section_info);
         //sectionInfoView.setVisibility(View.INVISIBLE);
-        seasonInfoView.setVisibility(View.INVISIBLE);
+        //seasonInfoView.setVisibility(View.INVISIBLE);
         bar = (ProgressBar)mRootView.findViewById(R.id.loader);
 
 
@@ -295,6 +299,79 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
             JSONObject fallSections = new JSONObject(jArray.getJSONObject(0).getString("fall"));
             JSONObject winterSections = new JSONObject(((JSONObject)jArray.get(0)).getString("winter"));
 
+
+            JSONArray fallLectures = fallSections.getJSONArray("lectures");
+            HashMap<Integer, ArrayList<Klass>> sectionKlassHash = new HashMap<Integer, ArrayList<Klass>>();
+
+
+            HashMap<String, ArrayList<Section>> seasonSectionHash = new HashMap<String, ArrayList<Section>>();
+            HashMap<String, ArrayList<Object>> seasonObjectHash = new HashMap<String, ArrayList<Object>>();
+
+
+            ArrayList<Object> objectArray = new ArrayList<Object>();
+
+
+
+            ArrayList<Integer> sectionIDs = new ArrayList<Integer>();
+            ArrayList<Section> sectionArray = new ArrayList<Section>();
+            ArrayList<String> seasonArray = new ArrayList<String>();
+
+            for (int i=0; i<fallLectures.length(); i++) {
+                JSONObject currentSectionJSON = fallLectures.getJSONObject(i);
+                Integer currentSectionID = currentSectionJSON.getInt("id");
+                sectionIDs.add(currentSectionID);
+
+                Section currentSection = new Section();
+                currentSection.setID(currentSectionJSON.getInt("id"));
+                currentSection.setCourseID(currentSectionJSON.getInt("course_id"));
+                currentSection.setSynonym(currentSectionJSON.getInt("synonym"));
+                currentSection.setCourseName(currentSectionJSON.getString("name"));
+                currentSection.setDepartment(currentSectionJSON.getString("department"));
+                currentSection.setCourseCode(currentSectionJSON.getString("course_code"));
+                currentSection.setSectionCode(currentSectionJSON.getString("section_code"));
+                currentSection.setInstructor(currentSectionJSON.getString("instructor"));
+                currentSection.setStartDate(currentSectionJSON.getString("start_date"));
+                currentSection.setEndDate(currentSectionJSON.getString("end_date"));
+                currentSection.setSeason(currentSectionJSON.getString("season"));
+                currentSection.setMethod(currentSectionJSON.getString("method"));
+
+                objectArray.add(currentSection);
+
+                JSONArray klassJSONArray = fallLectures.getJSONObject(i).getJSONArray("class_array");
+                ArrayList<Klass> klassArray = new ArrayList<Klass>();
+                for (int j=0; j<klassJSONArray.length(); j++) {
+                    JSONObject jsonKlass = klassJSONArray.getJSONObject(j);
+                    Klass klass = new Klass();
+
+                    klass.setID(jsonKlass.getInt("id"));
+                    klass.setSecionID(jsonKlass.getInt("section_id"));
+                    klass.setDay(jsonKlass.getString("day"));
+                    klass.setStartTime(jsonKlass.getString("start_time"));
+                    klass.setEndTime(jsonKlass.getString("end_time"));
+                    klass.setRoom(jsonKlass.getString("room"));
+
+                    klassArray.add(klass);
+                    objectArray.add(klass);
+                }
+                currentSection.setKlasses(klassArray);
+
+
+                sectionKlassHash.put(currentSectionID, klassArray);
+            }
+
+            seasonSectionHash.put("Fall", sectionArray);
+            seasonObjectHash.put("Fall", objectArray);
+            seasonArray.add("Fall");
+
+
+
+            CourseExpandableAdapter courseAdapter = new CourseExpandableAdapter(this.getActivity(), seasonArray, seasonObjectHash);
+
+            mExpListView.setAdapter(courseAdapter);
+
+
+
+            /*
             if(!checkSeasonEmpty(fallSections))
             {
                 //FALL-----------------------------------------------
@@ -332,16 +409,17 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
                 addSection("practicals", seasonLayout, winterSections);
                 addSection("tutorials", seasonLayout, winterSections);
             }
+            */
 
 
         }
         catch(Exception e)
         {
-            Log.e("Exceptions", e.toString());
+            e.printStackTrace();
         }
 
         courseInfoLayout.setVisibility(View.VISIBLE);
-        seasonInfoView.setVisibility(View.VISIBLE);
+        //seasonInfoView.setVisibility(View.VISIBLE);
         bar.setVisibility(View.GONE);
     };
     public void onJSONArrayCancelled(){};
