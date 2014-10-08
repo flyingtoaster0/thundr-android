@@ -1,14 +1,13 @@
 package com.flyingtoaster.thundr;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingFragmentActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.Stack;
@@ -16,7 +15,7 @@ import java.util.Stack;
 /**
  * Created by tim on 2014-10-05.
  */
-public class MainActivity extends SlidingFragmentActivity implements FragmentCallbackListener {
+public class MainActivity extends FragmentActivity implements FragmentCallbackListener {
     static final int FRAGMENT_MY_COURSES = 1;
     static final int FRAGMENT_TODAY = 2;
     static final int FRAGMENT_BROWSE = 2;
@@ -30,6 +29,7 @@ public class MainActivity extends SlidingFragmentActivity implements FragmentCal
     ImageView mOpenMenuButton;
 
     Stack<Fragment> browseStack;
+    SlidingMenu mMenu;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,18 +38,24 @@ public class MainActivity extends SlidingFragmentActivity implements FragmentCal
         setTitle("TEST");
         // set the content view
         setContentView(R.layout.activity_main);
-        setBehindContentView(R.layout.navigation_menu);
+        //setBehindContentView(R.layout.navigation_menu);
         // configure the SlidingMenu
 
-        SlidingMenu menu = getSlidingMenu();
-        menu.setMode(SlidingMenu.LEFT);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        menu.setShadowWidthRes(R.dimen.shadow_width);
-        menu.setShadowDrawable(R.drawable.shadow);
-        menu.setBehindOffsetRes(R.dimen.behind_offset);
-        menu.setFadeDegree(0.35f);
-        //menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        //menu.setMenu(R.layout.navigation_menu);
+        mMenu = new SlidingMenu(this);
+        mMenu.setMode(SlidingMenu.LEFT);
+        mMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        mMenu.setShadowWidthRes(R.dimen.shadow_width);
+        mMenu.setShadowDrawable(R.drawable.shadow);
+        mMenu.setBehindOffsetRes(R.dimen.behind_offset);
+        mMenu.setFadeDegree(0.35f);
+        mMenu.setMenu(R.layout.navigation_menu);
+        mMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        //mMenu.setMenu(R.layout.navigation_menu);
+
+
+
+
+
 
         mOpenMenuButton = (ImageView)findViewById(R.id.menu_open_button);
         mOpenMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +77,10 @@ public class MainActivity extends SlidingFragmentActivity implements FragmentCal
 
 
         goToFragment(FRAGMENT_MY_COURSES);
+    }
+
+    public SlidingMenu getSlidingMenu () {
+        return mMenu;
     }
 
     public void goToFragment(int fragmentNum) {
