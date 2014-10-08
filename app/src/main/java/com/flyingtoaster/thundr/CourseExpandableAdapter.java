@@ -74,7 +74,7 @@ public class CourseExpandableAdapter extends BaseExpandableListAdapter {
             final ImageView mOpenButton;
             final SlidingMenu mSlidingMenu;
             mSlidingMenu = (SlidingMenu)rowView.findViewById(R.id.slidingmenulayout);
-            mSaveButton = (Button)mSlidingMenu.getContent().findViewById(R.id.button_add);
+            mSaveButton = (Button)rowView.findViewById(R.id.button_add);
             mOpenButton = (ImageView)mSlidingMenu.getContent().findViewById(R.id.open_frag_menu);
             mOpenButton.setOnClickListener(new View.OnClickListener() {
                 @Override
