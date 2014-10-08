@@ -2,7 +2,7 @@ package com.flyingtoaster.thundr;
 
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.util.ActivityController;
@@ -22,7 +22,7 @@ public class MainActivityTest {
 
         activity.mOpenMenuButton.callOnClick();
 
-        assertThat(activity.getSlidingMenu().isMenuShowing(), equalTo(true));
+        assertThat(activity.getSlidingMenu().isMenuShowing(), is(true));
         //activity.mOpenMenuButton.callOnClick();
 
         //Thread.sleep(1000);

@@ -19,4 +19,11 @@
             android:scaleType="fitCenter"
             android:src="@drawable/g_menu_grey" />
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/active_fragment"
+        android:layout_below="@id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" />
 </RelativeLayout>
