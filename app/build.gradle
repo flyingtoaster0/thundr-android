@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
+apply plugin: 'robolectric'
 android {
-    compileSdkVersion 20
+    compileSdkVersion 18
     buildToolsVersion '19.1.0'
 
     defaultConfig {
         applicationId "com.flyingtoaster.thundr"
         minSdkVersion 16
-        targetSdkVersion 20
+        targetSdkVersion 18
         versionCode 1
         versionName "1.0"
     }
@@ -16,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     packagingOptions {
         exclude 'LICENSE.txt'
         exclude 'META-INF/DEPENDENCIES'
@@ -36,5 +38,18 @@ dependencies {
     compile files('libs/junit-4.10.jar')
     compile project(':slidingmenu')
     compile 'com.google.code.gson:gson:2.3'
+    androidTestCompile 'org.robolectric:robolectric:2.3'
 }
 
+robolectric {
+    include '**/**/MainActivityTest.class'
+    exclude '**/espresso/**/*.class'
+}
+
+apply plugin: 'idea'
+
+idea {
+    module {
+        testOutputDir = file('build/test-classes/debug')
+    }
+}
