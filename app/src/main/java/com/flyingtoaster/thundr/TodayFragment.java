@@ -26,19 +26,6 @@ public class TodayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_today, container, false);
 
-        mSlidingMenu = (SlidingMenu)mRootView.findViewById(R.id.slidingmenulayout);
-        mOpenButton = (Button)mSlidingMenu.getContent().findViewById(R.id.open_frag_menu);
-        mOpenButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mSlidingMenu.isMenuShowing()) {
-                    mSlidingMenu.showMenu();
-                } else {
-                    mSlidingMenu.showContent();
-                }
-            }
-        });
-
         return mRootView;
     }
 }

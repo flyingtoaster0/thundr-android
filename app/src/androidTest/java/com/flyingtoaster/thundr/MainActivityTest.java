@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class MainActivityTest {
     @Test
     public void shouldHaveApplicationName() throws Exception {
-        String appName = new MainActivity().getResources().getString(R.string.app_name);
+        //String appName = new MainActivity().getResources().getString(R.string.app_name);
         ActivityController controller = Robolectric.buildActivity(MainActivity.class).create().start();
 
         MainActivity activity = (MainActivity)controller.get();
@@ -28,5 +28,10 @@ public class MainActivityTest {
         //Thread.sleep(1000);
 
         //assertThat(activity.getSlidingMenu().isMenuShowing(), equalTo(true));
+    }
+
+    @Test
+    public void trivialTest() throws Exception {
+        assertThat("TESTING", equalTo("TESTING"));
     }
 }

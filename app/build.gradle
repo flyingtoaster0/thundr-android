@@ -27,6 +27,9 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -34,3 +37,4 @@ dependencies {
     compile project(':slidingmenu')
     compile 'com.google.code.gson:gson:2.3'
 }
+
