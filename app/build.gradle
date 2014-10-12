@@ -36,9 +36,14 @@ android {
 
 dependencies {
     compile files('libs/junit-4.10.jar')
-    compile project(':slidingmenu')
     compile 'com.google.code.gson:gson:2.3'
-    androidTestCompile 'org.robolectric:robolectric:2.3'
+    compile('de.keyboardsurfer.android.widget:crouton:1.8.4') {
+        exclude module: 'support-v4'
+    }
+    androidTestCompile ('org.robolectric:robolectric:2.3') {
+        exclude module: 'support-v4'
+    }
+    compile project(':slidingmenu')
 }
 
 robolectric {
