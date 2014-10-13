@@ -106,15 +106,16 @@ public class CourseExpandableAdapter extends BaseExpandableListAdapter {
                     Gson gson = new Gson();
                     //Log.d("TEST", gson.toJson(section));
                     Section.saveToPreferences(context, section);
+                    mSlidingMenu.showContent();
                 }
             });
 
         } else if (object instanceof Klass) {
-            rowView = inflater.inflate(R.layout.course_row_when_where, parent, false);
+            rowView = inflater.inflate(R.layout.section_time_row, parent, false);
 
-            TextView dayView = (TextView)rowView.findViewById(R.id.when_where_day);
-            TextView timeView = (TextView)rowView.findViewById(R.id.when_where_time);
-            TextView roomView = (TextView)rowView.findViewById(R.id.when_where_room);
+            TextView dayView = (TextView)rowView.findViewById(R.id.day_of_week);
+            TextView timeView = (TextView)rowView.findViewById(R.id.klass_time_textview);
+            TextView roomView = (TextView)rowView.findViewById(R.id.room);
 
             Klass klass = (Klass)object;
 

@@ -52,6 +52,7 @@
         android:id="@+id/expand_fall_list"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/course_info"/>
+        android:layout_below="@id/course_info"
+        android:divider="@null"/>
 
 </RelativeLayout>

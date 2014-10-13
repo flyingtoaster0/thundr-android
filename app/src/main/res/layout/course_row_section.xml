@@ -3,31 +3,37 @@
 <LinearLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="64dp">
-        <LinearLayout android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#9e9e9e"/>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:padding="8dp">
             <TextView
                 android:id="@+id/section_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LEC (MATH-1411) 56905"/>
-        </LinearLayout>
-        <com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
-            xmlns:sliding="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/slidingmenulayout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            sliding:mode="right"
-            android:layout_alignParentRight="true"
-            sliding:viewBehind="@layout/button_below"
-            sliding:viewAbove="@layout/button_above"
-            sliding:touchModeAbove="margin"
-            sliding:behindWidth="@dimen/small_behind_width"
-            sliding:behindScrollScale="@dimen/small_behind_scroll_scale"
-            sliding:shadowDrawable="@drawable/shadow_right"
-            sliding:shadowWidth="@dimen/shadow_width"/>
+                android:text="LEC (MATH-1411) 56905"
+                android:textSize="18sp"
+                android:paddingLeft="8dp"
+                android:layout_centerVertical="true"/>
+            <com.jeremyfeinstein.slidingmenu.lib.SlidingMenu
+                xmlns:sliding="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/slidingmenulayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                sliding:mode="right"
+                android:layout_alignParentRight="true"
+                sliding:viewBehind="@layout/button_below"
+                sliding:viewAbove="@layout/button_above"
+                sliding:touchModeAbove="margin"
+                sliding:behindWidth="@dimen/small_behind_width"
+                sliding:behindScrollScale="@dimen/small_behind_scroll_scale"
+                sliding:shadowDrawable="@drawable/shadow_right"
+                sliding:shadowWidth="@dimen/shadow_width"/>
     </RelativeLayout>
 </LinearLayout>

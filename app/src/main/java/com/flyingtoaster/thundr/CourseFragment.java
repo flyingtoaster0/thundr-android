@@ -447,6 +447,12 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
 
             mExpListView.setAdapter(courseAdapter);
 
+            if (!seasonArray.isEmpty()) {
+                for (int i = 0; i < seasonArray.size(); i++) {
+                    mExpListView.expandGroup(i);
+                }
+            }
+
 
 
             /*
