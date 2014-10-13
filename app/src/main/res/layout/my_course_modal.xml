@@ -18,4 +18,48 @@
         android:id="@+id/section_time_listview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_grey"/>
+
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:measureWithLargestChild="true">
+
+        <LinearLayout android:id="@+id/leftSpacer"
+            android:layout_weight="0.25"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone" />
+        <Button android:id="@+id/button_ok"
+            android:layout_width="0dip"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            style="?android:attr/buttonBarButtonStyle"
+            android:maxLines="2"
+            android:layout_height="wrap_content"
+            android:text="@string/back"/>
+        <Button android:id="@+id/button_remove"
+            android:layout_width="0dip"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            style="?android:attr/buttonBarButtonStyle"
+            android:maxLines="2"
+            android:layout_height="wrap_content"
+            android:text="@string/remove"
+            android:textColor="@color/crimson"
+            android:textStyle="bold" />
+        <LinearLayout android:id="@+id/rightSpacer"
+            android:layout_width="0dip"
+            android:layout_weight="0.25"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone" />
+    </LinearLayout>
 </LinearLayout>

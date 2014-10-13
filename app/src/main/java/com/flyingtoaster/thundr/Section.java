@@ -177,6 +177,11 @@ public class Section {
         return section;
     }
 
+    public static void removeStoredSection(String fullSectionCode, Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("sections", Context.MODE_PRIVATE);
+        prefs.edit().remove(fullSectionCode).commit();
+    }
+
     public static ArrayList<Section> getAllStoredSections(Context context) {
         ArrayList<Section> allSections = new ArrayList<Section>();
 

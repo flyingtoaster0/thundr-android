@@ -42,10 +42,21 @@ public class MyCoursesFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString("full_section_code", fullSectionCode);
                 dialog.setArguments(args);
+                dialog.setParent(MyCoursesFragment.this);
                 dialog.show(getActivity().getSupportFragmentManager(), "MyCourseModalFragment");
             }
         });
 
         return mRootView;
+    }
+
+    public void removeCourse(String fullSectionCode) {
+        Section sectionToRemove = Section.getStoredSection(fullSectionCode, getActivity());
+        Section.removeStoredSection(fullSectionCode, getActivity());
+        mSectionCodes.remove(sectionToRemove);
+        mSectionCodes = Section.getStoredSectionCodes(getActivity());
+        mMyCoursesAdapter = new MyCoursesAdapter(getActivity(), mSectionCodes);
+        mMyCoursesAdapter.notifyDataSetChanged();
+        mMyCoursesListView.setAdapter(mMyCoursesAdapter);
     }
 }
