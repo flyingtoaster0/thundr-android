@@ -172,8 +172,6 @@ public class MainActivity extends FragmentActivity implements FragmentCallbackLi
             t.replace(R.id.active_fragment, mActiveFragment);
             t.commit();
             getSupportFragmentManager().executePendingTransactions();
-        } else if (mActiveFragment instanceof MyCoursesFragment && ((MyCoursesFragment)mActiveFragment).isModalShowing()) {
-            ((MyCoursesFragment)mActiveFragment).onBackPressed();
         } else {
             super.onBackPressed();
         }

@@ -60,6 +60,6 @@ public class Klass {
     }
 
     public String getStartEndTime() {
-        return this.getStartTime() + "-" + this.getEndTime();
+        return this.getStartTime() + " - " + this.getEndTime();
     }
 }
