@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -68,8 +69,12 @@ public class CourseExpandableAdapter extends BaseExpandableListAdapter {
 
         if (object instanceof Section) {
             rowView = inflater.inflate(R.layout.course_row_section, parent, false);
+            TextView sectionTitleView = (TextView)rowView.findViewById(R.id.section_title);
 
             final Section section = (Section)object;
+
+            sectionTitleView.setText("Section: " + section.getSynonym() + " (" + section.getMethod() + ")");
+
             ArrayList<Klass> klassArray = new ArrayList<Klass>();
             for (int i=0; i<sections.get(season).size(); i++) {
                 if ((sections.get(season).get(i) instanceof Klass) && (((Klass)sections.get(season).get(i))).getSecionID() == section.getID()) {
@@ -106,6 +111,17 @@ public class CourseExpandableAdapter extends BaseExpandableListAdapter {
 
         } else if (object instanceof Klass) {
             rowView = inflater.inflate(R.layout.course_row_when_where, parent, false);
+
+            TextView dayView = (TextView)rowView.findViewById(R.id.when_where_day);
+            TextView timeView = (TextView)rowView.findViewById(R.id.when_where_time);
+            TextView roomView = (TextView)rowView.findViewById(R.id.when_where_room);
+
+            Klass klass = (Klass)object;
+
+            dayView.setText(klass.getDay());
+            timeView.setText(klass.getStartEndTime());
+            roomView.setText(klass.getRoom());
+
         }
 
         return rowView;
@@ -137,6 +153,11 @@ public class CourseExpandableAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.course_row_season, null);
+
+            TextView groupTitle = (TextView)convertView.findViewById(R.id.season_title);
+            if (groupTitle == null || seasons.get(groupPosition) == null) return convertView;
+
+            groupTitle.setText(seasons.get(groupPosition));
         }
 
         return convertView;

@@ -25,30 +25,25 @@
                 android:text="Computer Programming I"
                 android:id="@+id/course_title"
                 android:layout_gravity="center_horizontal" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="COMP-1411"
-                android:id="@+id/course_code"
-                android:layout_gravity="center_horizontal" />
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="COMP-1411"
+                    android:id="@+id/course_code" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:text="test"
-                android:id="@+id/course_description"
-                />
+                <ImageView
+                    android:id="@+id/show_info_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/ic_dialog_info"/>
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:text="test"
-                android:id="@+id/course_prerequisites"
-                />
         </LinearLayout>
 
 

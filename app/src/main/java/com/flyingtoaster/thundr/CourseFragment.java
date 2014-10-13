@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -51,6 +53,8 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
     FragmentCallbackListener mListener;
     private String mDept;
 
+    private ImageView showInfoButton;
+
 
     private ExpandableListView mExpListView;
 
@@ -80,6 +84,8 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
         courseInfoLayout.setVisibility(View.INVISIBLE);
 
         mExpListView = (ExpandableListView)mRootView.findViewById(R.id.expand_fall_list);
+        showInfoButton = (ImageView)mRootView.findViewById(R.id.show_info_button);
+
 
         //sectionInfoLayout = (ListView) findViewById(R.id.section_info);
         //sectionInfoView.setVisibility(View.INVISIBLE);
@@ -285,22 +291,42 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
 
             TextView courseTitleText = (TextView)mRootView.findViewById(R.id.course_title);
             TextView courseCodeText = (TextView)mRootView.findViewById(R.id.course_code);
+
+            final String description = jInfo.getString("description");
+            final String prerequisite = jInfo.getString("prerequisite");
+
+
             TextView courseDescriptText = (TextView)mRootView.findViewById(R.id.course_description);
             TextView coursePrereqText = (TextView)mRootView.findViewById(R.id.course_prerequisites);
 
             courseTitleText.setText(jInfo.getString("name"));
             courseCodeText.setText(jInfo.getString("department") + "-" + jInfo.getString("course_code"));
-            courseDescriptText.setText(jInfo.getString("description"));
-            coursePrereqText.setText("Prerequisites: " + jInfo.getString("prerequisite"));
+            //courseDescriptText.setText(jInfo.getString("description"));
+            //coursePrereqText.setText("Prerequisites: " + jInfo.getString("prerequisite"));
 
+            if (description == null && prerequisite == null) {
+                showInfoButton.setVisibility(View.GONE);
+            } else {
+                showInfoButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        CourseInfoDialog dialog = new CourseInfoDialog();
 
-
+                        Bundle args = new Bundle();
+                        args.putString("course_description", description);
+                        args.putString("course_prereqs", prerequisite);
+                        dialog.setArguments(args);
+                        dialog.show(getActivity().getSupportFragmentManager(), "CourseInfoDialog");
+                    }
+                });
+            }
 
             JSONObject fallSections = new JSONObject(jArray.getJSONObject(0).getString("fall"));
             JSONObject winterSections = new JSONObject(((JSONObject)jArray.get(0)).getString("winter"));
 
 
             JSONArray fallLectures = fallSections.getJSONArray("lectures");
+            JSONArray winterLectures = winterSections.getJSONArray("lectures");
             HashMap<Integer, ArrayList<Klass>> sectionKlassHash = new HashMap<Integer, ArrayList<Klass>>();
 
 
@@ -308,7 +334,8 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
             HashMap<String, ArrayList<Object>> seasonObjectHash = new HashMap<String, ArrayList<Object>>();
 
 
-            ArrayList<Object> objectArray = new ArrayList<Object>();
+            ArrayList<Object> fallObjectArray = new ArrayList<Object>();
+            ArrayList<Object> winterObjectArray = new ArrayList<Object>();
 
 
 
@@ -335,7 +362,7 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
                 currentSection.setSeason(currentSectionJSON.getString("season"));
                 currentSection.setMethod(currentSectionJSON.getString("method"));
 
-                objectArray.add(currentSection);
+                fallObjectArray.add(currentSection);
 
                 JSONArray klassJSONArray = fallLectures.getJSONObject(i).getJSONArray("class_array");
                 ArrayList<Klass> klassArray = new ArrayList<Klass>();
@@ -351,7 +378,7 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
                     klass.setRoom(jsonKlass.getString("room"));
 
                     klassArray.add(klass);
-                    objectArray.add(klass);
+                    fallObjectArray.add(klass);
                 }
                 currentSection.setKlasses(klassArray);
 
@@ -359,9 +386,60 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
                 sectionKlassHash.put(currentSectionID, klassArray);
             }
 
-            seasonSectionHash.put("Fall", sectionArray);
-            seasonObjectHash.put("Fall", objectArray);
+
+            seasonObjectHash.put("Fall", fallObjectArray);
+
+
+
+            for (int i=0; i<winterLectures.length(); i++) {
+                JSONObject currentSectionJSON = winterLectures.getJSONObject(i);
+                Integer currentSectionID = currentSectionJSON.getInt("id");
+                sectionIDs.add(currentSectionID);
+
+                Section currentSection = new Section();
+                currentSection.setID(currentSectionJSON.getInt("id"));
+                currentSection.setCourseID(currentSectionJSON.getInt("course_id"));
+                currentSection.setSynonym(currentSectionJSON.getInt("synonym"));
+                currentSection.setCourseName(currentSectionJSON.getString("name"));
+                currentSection.setDepartment(currentSectionJSON.getString("department"));
+                currentSection.setCourseCode(currentSectionJSON.getString("course_code"));
+                currentSection.setSectionCode(currentSectionJSON.getString("section_code"));
+                currentSection.setInstructor(currentSectionJSON.getString("instructor"));
+                currentSection.setStartDate(currentSectionJSON.getString("start_date"));
+                currentSection.setEndDate(currentSectionJSON.getString("end_date"));
+                currentSection.setSeason(currentSectionJSON.getString("season"));
+                currentSection.setMethod(currentSectionJSON.getString("method"));
+
+                winterObjectArray.add(currentSection);
+
+                JSONArray klassJSONArray = winterLectures.getJSONObject(i).getJSONArray("class_array");
+                ArrayList<Klass> klassArray = new ArrayList<Klass>();
+                for (int j=0; j<klassJSONArray.length(); j++) {
+                    JSONObject jsonKlass = klassJSONArray.getJSONObject(j);
+                    Klass klass = new Klass();
+
+                    klass.setID(jsonKlass.getInt("id"));
+                    klass.setSecionID(jsonKlass.getInt("section_id"));
+                    klass.setDay(jsonKlass.getString("day"));
+                    klass.setStartTime(jsonKlass.getString("start_time"));
+                    klass.setEndTime(jsonKlass.getString("end_time"));
+                    klass.setRoom(jsonKlass.getString("room"));
+
+                    klassArray.add(klass);
+                    winterObjectArray.add(klass);
+                }
+                currentSection.setKlasses(klassArray);
+
+
+                sectionKlassHash.put(currentSectionID, klassArray);
+            }
+
+
+            //seasonSectionHash.put("Fall", sectionArray);
+            //seasonSectionHash.put("Winter", sectionArray);
+            seasonObjectHash.put("Winter", winterObjectArray);
             seasonArray.add("Fall");
+            seasonArray.add("Winter");
 
 
 

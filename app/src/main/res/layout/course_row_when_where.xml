@@ -10,14 +10,17 @@
         android:orientation="vertical"
         android:layout_alignParentLeft="true">
         <TextView
+            android:id="@+id/when_where_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Monday"/>
         <TextView
+            android:id="@+id/when_where_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="12:00AM - 12:00AM"/>
         <TextView
+            android:id="@+id/when_where_room"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="AT4004"/>
