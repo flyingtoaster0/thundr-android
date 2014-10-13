@@ -386,10 +386,10 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
                 sectionKlassHash.put(currentSectionID, klassArray);
             }
 
-
-            seasonObjectHash.put("Fall", fallObjectArray);
-
-
+            if (!winterObjectArray.isEmpty()) {
+                seasonObjectHash.put("Fall", winterObjectArray);
+                seasonArray.add("Fall");
+            }
 
             for (int i=0; i<winterLectures.length(); i++) {
                 JSONObject currentSectionJSON = winterLectures.getJSONObject(i);
@@ -437,9 +437,11 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
 
             //seasonSectionHash.put("Fall", sectionArray);
             //seasonSectionHash.put("Winter", sectionArray);
-            seasonObjectHash.put("Winter", winterObjectArray);
-            seasonArray.add("Fall");
-            seasonArray.add("Winter");
+            if (!winterObjectArray.isEmpty()) {
+                seasonObjectHash.put("Winter", winterObjectArray);
+                seasonArray.add("Winter");
+            }
+
 
 
 
