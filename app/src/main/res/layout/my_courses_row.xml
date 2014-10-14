@@ -7,5 +7,9 @@
         android:id="@+id/my_courses_row_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:paddingLeft="8dp"
+        android:textSize="16dp"
         android:text="MATH-1800-FA"/>
 </LinearLayout>
