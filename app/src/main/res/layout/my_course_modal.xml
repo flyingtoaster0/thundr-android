@@ -4,16 +4,35 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/section_full_code"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MATH-1800-FA"/>
-    <TextView
-        android:id="@+id/section_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Calculus"/>
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:id="@+id/section_full_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MATH-1800-FA"
+            android:textSize="18dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/section_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calculus"
+                android:textSize="18dp"/>
+            <!--ImageView
+                android:id="@+id/show_info_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_action_about_dark"/-->
+        </LinearLayout>
+    </LinearLayout>
+
     <ListView
         android:id="@+id/section_time_listview"
         android:layout_width="fill_parent"
