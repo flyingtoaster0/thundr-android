@@ -1,21 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:text="test"
-        android:id="@+id/course_description"
-        />
+        android:padding="8dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/modal_description_title"
+            android:text="Description: "
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test"
+            android:id="@+id/course_description"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/modal_prerequisites_title"
+            android:layout_marginTop="8dp"
+            android:text="Prerequisites: "
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test"
+            android:id="@+id/course_prerequisites"
+            />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_grey"/>
+
+
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:text="test"
-        android:id="@+id/course_prerequisites"
-        />
+        android:orientation="horizontal"
+        android:measureWithLargestChild="true">
+        <Button android:id="@+id/button_ok"
+            android:layout_width="0dip"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            style="?android:attr/buttonBarButtonStyle"
+            android:maxLines="2"
+            android:layout_height="wrap_content"
+            android:text="@string/back"/>
+    </LinearLayout>
 </LinearLayout>

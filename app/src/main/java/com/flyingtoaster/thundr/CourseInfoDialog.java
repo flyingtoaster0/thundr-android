@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,6 +23,8 @@ public class CourseInfoDialog extends DialogFragment {
     String mDescription;
     String mPrerequisite;
 
+    Button mBackButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +39,18 @@ public class CourseInfoDialog extends DialogFragment {
 
         mDescriptionTextView = (TextView)mRootView.findViewById(R.id.course_description);
         mPrereqTextView = (TextView)mRootView.findViewById(R.id.course_prerequisites);
+        mBackButton = (Button)mRootView.findViewById(R.id.button_ok);
 
         Bundle args = getArguments();
-        mDescription = args.getString("course_description","");
+        mDescription = args.getString("course_description", "");
         mPrerequisite = args.getString("course_prereqs","");
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
 
         mDescriptionTextView.setText(mDescription);
         mPrereqTextView.setText(mPrerequisite);

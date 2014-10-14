@@ -6,6 +6,7 @@ package com.flyingtoaster.thundr;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -79,8 +80,20 @@ public class MyCourseDialog extends DialogFragment {
             mRemoveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mParent.removeCourse(mFullSectionCode);
-                    dismiss();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Remove course?");
+
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dismiss();
+                            mParent.removeCourse(mFullSectionCode);
+                        }
+                    });
+                    builder.setNegativeButton("No", null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+
                 }
             });
         }
