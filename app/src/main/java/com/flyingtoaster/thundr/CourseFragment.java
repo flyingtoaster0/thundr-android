@@ -387,7 +387,7 @@ public class CourseFragment extends Fragment implements GetJSONArrayListener
             }
 
             if (!fallObjectArray.isEmpty()) {
-                seasonObjectHash.put("Fall", winterObjectArray);
+                seasonObjectHash.put("Fall", fallObjectArray);
                 seasonArray.add("Fall");
             }
 
